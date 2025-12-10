@@ -1,17 +1,17 @@
 import Link from "next/link";
-import { Code2, Github, Twitter, Linkedin, Mail } from "lucide-react";
+import { Github, Twitter, Linkedin, Mail } from "lucide-react";
+import { Logo } from "./Logo";
 
 export function Footer() {
   return (
     <footer className="bg-muted/50 border-t">
       <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          
+
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <Code2 className="h-6 w-6 text-primary" />
-              <span className="text-lg font-bold tracking-tight">FPI</span>
+              <Logo />
             </div>
             <p className="text-sm text-muted-foreground">
               Empowering the next generation of programmers through mentorship,

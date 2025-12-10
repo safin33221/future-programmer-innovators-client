@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -15,21 +15,25 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: 'black',
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://your-domain.com"),
   title: {
-    default: "Future Programming Innovators",
-    template: "%s | Future Programming Innovators",
+    default: "Future Programmer Innovators",
+    template: "%s | Future Programmer Innovators",
   },
   description:
-    "Future Programming Innovators is a digital programming club for diploma students focusing on Web Development, App Development, Cybersecurity, Competitive Programming, and professional growth.",
+    "Future Programmer Innovators is a digital programming club for diploma students focusing on Web Development, App Development, Cybersecurity, Competitive Programming, and professional growth.",
   keywords: [
     "Programming Club",
     "Web Development",
     "App Development",
     "Cybersecurity",
     "Competitive Programming",
-    "Future Programming Innovators",
+    "Future Programmer Innovators",
     "FPI",
     "Diploma Students",
     "Coding Club",
@@ -39,17 +43,17 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   openGraph: {
-    title: "Future Programming Innovators",
+    title: "Future Programmer Innovators",
     description:
       "A modern digital coding club helping diploma students become world-class programmers.",
     url: "https://your-domain.com",
-    siteName: "Future Programming Innovators",
+    siteName: "Future Programmer Innovators",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Future Programming Innovators",
+        alt: "Future Programmer Innovators",
       },
     ],
     locale: "en_US",
@@ -57,7 +61,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Future Programming Innovators",
+    title: "Future Programmer Innovators",
     description:
       "A modern digital coding club helping diploma students become world-class programmers.",
     images: ["/og-image.png"],
@@ -73,7 +77,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   themeColor: "#ffffff",
-  applicationName: "Future Programming Innovators",
+  applicationName: "Future Programmer Innovators",
   category: "Education",
   alternates: {
     canonical: "https://your-domain.com",
@@ -82,7 +86,7 @@ export const metadata: Metadata = {
     "schema:organization": JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Organization",
-      name: "Future Programming Innovators",
+      name: "Future Programmer Innovators",
       url: "https://your-domain.com",
       logo: "https://your-domain.com/logo.png",
       sameAs: [

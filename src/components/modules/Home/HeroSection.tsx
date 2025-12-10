@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 export default function HeroSection() {
   return (
     <section className="relative py-20 lg:py-22 overflow-hidden ">
-      <div className="container px-4 md:px-6 relative z-10">
+      <div className="container px-4 md:px-6 relative z-10 mx-auto">
         <div className="flex flex-col items-center text-center space-y-8">
           <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-primary/10 text-primary hover:bg-primary/20">
             Registration Open for 2024 Batch

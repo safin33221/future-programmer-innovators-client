@@ -18,7 +18,7 @@ export function Logo() {
             {/* Text */}
             <div className="leading-tight">
                 <h1 className="text-xl font-bold tracking-tight text-foreground">
-                    Future <span className="text-primary">Programming</span>
+                    Future <span className="text-primary">Programmer</span>
                 </h1>
                 <p className="text-md text-muted-foreground tracking-wide">
                     Innovators

@@ -6,14 +6,14 @@ import { Button } from "@/components/ui/button";
 
 export default function HeroSection() {
   return (
-    <section className="relative py-20 lg:py-32 overflow-hidden bg-background">
+    <section className="relative py-20 lg:py-22 overflow-hidden ">
       <div className="container px-4 md:px-6 relative z-10">
         <div className="flex flex-col items-center text-center space-y-8">
           <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-primary/10 text-primary hover:bg-primary/20">
             Registration Open for 2024 Batch
           </div>
 
-          <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text text-transparent bg-linear-to-r from-primary to-accent">
+          <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text text-transparent bg-linear-to-r from-primary to-primary/50">
             Future Programmer Innovators
           </h1>
 
@@ -25,7 +25,7 @@ export default function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-4 min-w-[200px]">
             <Link href="/apply">
               <Button size="lg" className="w-full sm:w-auto">
-                Join FPI <ArrowRight className="ml-2 h-4 w-4" />
+                Join Future Programming Innovators <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
 

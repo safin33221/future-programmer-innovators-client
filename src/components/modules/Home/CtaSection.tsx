@@ -12,7 +12,7 @@ export function CtaSection() {
 
                     <p className="text-muted-foreground max-w-[600px] mx-auto text-lg">
                         Join hundreds of other students who are building their future with
-                        Future Programming Innovators today.
+                        Future Programmer Innovators today.
                     </p>
 
                     <Link href="/apply">

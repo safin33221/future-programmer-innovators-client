@@ -30,7 +30,7 @@ export default function VisionMission() {
           <CardContent>
             <p className="text-lg text-muted-foreground leading-relaxed">
               To become the leading student-driven technology community that
-              empowers every diploma student to become a world-class software
+              empowers every Feni Polytechnic Institute student to become a world-class software
               engineer and innovator.
             </p>
           </CardContent>

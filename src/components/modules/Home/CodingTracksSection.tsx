@@ -1,3 +1,4 @@
+import SectionTitle from "@/components/shared/SectionTitle";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
     LayoutPanelTop,
@@ -9,15 +10,14 @@ import {
 export default function CodingTracksSection() {
     return (
 
-        <section className="py-20 bg-muted/20">
+        <section className="py-16 bg-muted/20">
             <div className="container px-4 md:px-6 mx-auto">
                 <div className="text-center mb-14">
-                    <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                        Explore Your Coding Path
-                    </h2>
+                    <SectionTitle title="Explore Your" highlight="Coding Path"/>
+                
                     <p className="text-muted-foreground max-w-2xl mx-auto mt-3">
                         Choose a specialization and start mastering the skills that make
-                        top-tier developers. Future Programming Innovators helps you grow with structured learning,
+                        top-tier developers. Future Programmer Innovators helps you grow with structured learning,
                         real projects, and contest-ready training.
                     </p>
                 </div>

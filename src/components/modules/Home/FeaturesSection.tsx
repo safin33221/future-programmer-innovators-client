@@ -1,10 +1,12 @@
 
+import SectionTitle from "@/components/shared/SectionTitle";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { BookOpen, Trophy, Rocket, Users } from "lucide-react";
 
 export function FeaturesSection() {
     return (
         <section className="py-16 bg-muted/30">
+            <SectionTitle title="Features" className="pb-6" />
             <div className="container px-4 md:px-6 mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 

@@ -1,5 +1,6 @@
 "use client";
 
+import SectionTitle from "@/components/shared/SectionTitle";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, History, Award } from "lucide-react";
 
@@ -8,11 +9,10 @@ export default function AboutPage() {
     <div className="container mx-auto py-16 px-4 md:px-6 space-y-16">
       {/* Header */}
       <div className="text-center space-y-4 max-w-3xl mx-auto">
-        <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
-          About Future Programming Innovators
-        </h1>
+        <SectionTitle title="About" highlight="Future Programmer Innovators" />
+
         <p className="text-xl text-muted-foreground">
-          Future Programming Innovators is more than just a club. It is a
+          Future Programmer Innovators is more than just a club. It is a
           community dedicated to shaping the next generation of programmers,
           innovators, and tech leaders.
         </p>
@@ -25,7 +25,7 @@ export default function AboutPage() {
           <p className="text-muted-foreground leading-relaxed">
             Established in 2023, FPI began with a mission to bridge the gap
             between academic learning and the real-world skills required in the
-            tech industry—especially for diploma students. What started as a
+            tech industry—especially for Feni Polytechnic Institute students. What started as a
             small learning circle has now transformed into a digital hub for
             coding, creativity, and collaboration.
           </p>

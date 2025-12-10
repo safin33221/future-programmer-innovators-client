@@ -19,13 +19,13 @@ export default function HeroSection() {
 
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
             Build Your Programming Career. Compete. Learn. Grow. Join the
-            premier digital programming club for diploma students.
+            premier digital programming club for Feni Polytechnic Institute students.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 min-w-[200px]">
             <Link href="/apply">
               <Button size="lg" className="w-full sm:w-auto">
-                Join Future Programming Innovators <ArrowRight className="ml-2 h-4 w-4" />
+                Join Future Programmer Innovators <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
 

@@ -1,3 +1,4 @@
+import SectionTitle from "@/components/shared/SectionTitle";
 import { CheckCircle2 } from "lucide-react";
 
 export function WhyJoin() {
@@ -12,9 +13,8 @@ export function WhyJoin() {
     <section className="py-24 bg-linear-to-b from-primary/10 via-background to-background">
       <div className="container px-4 md:px-6 max-w-5xl mx-auto">
         <div className="text-center mb-14">
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-            Why Join <span className="text-primary">Future Programming Innovators Club?</span>
-          </h2>
+          <SectionTitle title="Why Join" highlight="Future Programmer Innovators Club?" />
+
           <p className="text-muted-foreground mt-4 max-w-2xl mx-auto text-lg">
             Unlock opportunities, learn real-world skills, and grow with a community of passionate programmers.
           </p>

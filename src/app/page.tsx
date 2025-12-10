@@ -1,9 +1,10 @@
-import WavesHero from "@/components/modules/Home/waves-hero";
+import HeroSection from "@/components/modules/Home/HeroSection";
+
 
 export default function page() {
   return (
     <div>
-      <WavesHero/>
+      <HeroSection />
     </div>
   );
 };

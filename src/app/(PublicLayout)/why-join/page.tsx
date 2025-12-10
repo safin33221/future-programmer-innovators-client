@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { CheckCircle2, Zap, Users, Award, Briefcase } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import SectionTitle from '@/components/shared/SectionTitle';
 
 export default function WhyJoin() {
     const benefits = [
@@ -37,9 +38,8 @@ export default function WhyJoin() {
     return (
         <div className="container mx-auto py-16 px-4 md:px-6 space-y-16">
             <div className="text-center space-y-4 max-w-3xl mx-auto">
-                <h1 className="text-4xl font-bold tracking-tight lg:text-4xl">
-                    Why Join Future Programmer Innovators?
-                </h1>
+                <SectionTitle title='Why Join' highlight='Future Programmer Innovators?' />
+
                 <p className="text-xl text-muted-foreground">
                     Invest in your future. Here&apos;s what you get when you become a member.
                 </p>

@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s | Future Programmer Innovators",
   },
   description:
-    "Future Programmer Innovators is a digital programming club for Feni Polytechnic Institute students focusing on Web Development, App Development, Cybersecurity, Competitive Programming, and professional growth.",
+    "Future Programmer Innovators is a digital programming club for diploma students focusing on Web Development, App Development, Cybersecurity, Competitive Programming, and professional growth.",
   keywords: [
     "Programming Club",
     "Web Development",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Future Programmer Innovators",
     description:
-      "A modern digital coding club helping Feni Polytechnic Institute students become world-class programmers.",
+      "A modern digital coding club helping diploma students become world-class programmers.",
     url: "https://your-domain.com",
     siteName: "Future Programmer Innovators",
     images: [
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Future Programmer Innovators",
     description:
-      "A modern digital coding club helping Feni Polytechnic Institute students become world-class programmers.",
+      "A modern digital coding club helping diploma students become world-class programmers.",
     images: ["/og-image.png"],
   },
   viewport: {

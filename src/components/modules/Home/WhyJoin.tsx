@@ -44,7 +44,7 @@ export function WhyJoin() {
                 {item}
               </p>
 
-              <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 pointer-events-none bg-linear-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
           ))}
         </div>

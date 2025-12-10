@@ -39,7 +39,7 @@ export default function HeroSection() {
       </div>
 
       {/* Abstract Background Element */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-10 bg-gradient-to-tr from-primary to-accent rounded-full blur-3xl -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-10 bg-linear-to-tr from-primary to-accent rounded-full blur-3xl -z-10" />
     </section>
   );
 }

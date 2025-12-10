@@ -40,7 +40,7 @@ export default function VisionMission() {
         <Card className="bg-linear-to-br from-background to-accent/5 border-accent/20">
           <CardHeader>
             <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
-              <Lightbulb className="h-6 w-6 text-accent" />
+              <Lightbulb className="h-6 w-6 text-red-600" />
             </div>
             <CardTitle className="text-3xl">Our Mission</CardTitle>
           </CardHeader>

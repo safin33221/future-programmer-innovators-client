@@ -11,40 +11,52 @@ export function WhyJoin() {
 
   return (
     <section className="py-24 bg-linear-to-b from-primary/10 via-background to-background">
-      <div className="container px-4 md:px-6 max-w-5xl mx-auto">
-        <div className="text-center mb-14">
+      <div className="container px-4 md:px-8 max-w-5xl mx-auto">
+
+        {/* Section Header */}
+        <div className="text-center mb-16">
           <SectionTitle title="Why Join" highlight="Future Programmer Innovators Club?" />
 
-          <p className="text-muted-foreground mt-4 max-w-2xl mx-auto text-lg">
+          <p className="text-muted-foreground mt-4 max-w-2xl mx-auto text-lg leading-relaxed">
             Unlock opportunities, learn real-world skills, and grow with a community of passionate programmers.
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-6 md:gap-8">
+        {/* Feature List */}
+        <div className="grid sm:grid-cols-2 gap-7 md:gap-9">
           {features.map((item) => (
             <div
               key={item}
               className="
-                group relative overflow-hidden rounded-2xl border bg-card/50 backdrop-blur 
-                p-6 flex items-start gap-4 transition-all duration-300
-                hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10
+                group relative overflow-hidden rounded-3xl border bg-card/50 backdrop-blur-xl
+                p-7 flex items-start gap-5 transition-all duration-300
+                hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10
               "
             >
+              {/* Icon */}
               <div
                 className="
-                  w-12 h-12 rounded-full flex items-center justify-center
-                  bg-primary/10 text-primary transition-transform duration-300
+                  w-14 h-14 rounded-full flex items-center justify-center text-primary
+                  bg-primary/10 transition-all duration-300
                   group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground
                 "
               >
-                <CheckCircle2 size={22} />
+                <CheckCircle2 size={24} />
               </div>
 
-              <p className="text-base md:text-lg font-medium text-foreground group-hover:text-primary transition-colors">
+              {/* Text */}
+              <p className="text-base md:text-lg font-medium text-foreground leading-relaxed transition-colors group-hover:text-primary">
                 {item}
               </p>
 
-              <div className="absolute inset-0 pointer-events-none bg-linear-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              {/* Hover Glow */}
+              <div
+                className="
+                  absolute inset-0 pointer-events-none bg-linear-to-r 
+                  from-primary/0 via-primary/5 to-primary/0
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-500
+                "
+              />
             </div>
           ))}
         </div>

@@ -18,7 +18,6 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card";
-import { Code2 } from "lucide-react";
 import { Logo } from "@/components/common/Logo";
 
 export default function Register() {

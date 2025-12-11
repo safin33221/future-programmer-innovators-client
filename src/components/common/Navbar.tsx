@@ -104,7 +104,7 @@ export function Navbar() {
               <Link href="/login">
                 <Button variant="ghost">Log in</Button>
               </Link>
-              <Link href="/apply">
+              <Link href="/membership-application">
                 <Button>Join Now</Button>
               </Link>
             </div>
@@ -180,7 +180,7 @@ export function Navbar() {
                   Log in
                 </Button>
               </Link>
-              <Link href="/apply" className="w-full">
+              <Link href="/membership-application" className="w-full">
                 <Button className="w-full">Join Now</Button>
               </Link>
             </div>

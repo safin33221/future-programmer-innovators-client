@@ -28,7 +28,7 @@ export default function Register() {
             <div className="flex flex-col justify-center px-10 md:px-16 lg:px-24 py-10 bg-background border-r">
 
                 {/* Logo */}
-               <Logo className="scale-110" />
+                <Logo className="scale-110" />
 
                 <h2 className="text-4xl max-md:mt-10 font-bold tracking-tight">
                     Join our coding community
@@ -71,35 +71,35 @@ export default function Register() {
                                 </div>
                             </div>
 
+                            {/* Email */}
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Email</label>
+                                <Input type="email" placeholder="m@example.com" />
+                            </div>
                             <div className="grid grid-cols-2 gap-4">
-                                {/* Email */}
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium">Email</label>
-                                    <Input type="email" placeholder="m@example.com" />
-                                </div>
 
                                 {/* Student ID */}
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium">Student ID</label>
                                     <Input placeholder="2023CS101" />
                                 </div>
+                                {/* Program */}
+                                <div className="space-y-2 w-full">
+                                    <label className="text-sm font-medium">Program</label>
+                                    <Select >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select program" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="cs">Computer Science</SelectItem>
+                                            <SelectItem value="it">Information Technology</SelectItem>
+                                            <SelectItem value="ec">Electronics</SelectItem>
+                                            <SelectItem value="other">Other</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
                             </div>
 
-                            {/* Program */}
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">Program</label>
-                                <Select>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select program" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="cs">Computer Science</SelectItem>
-                                        <SelectItem value="it">Information Technology</SelectItem>
-                                        <SelectItem value="ec">Electronics</SelectItem>
-                                        <SelectItem value="other">Other</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
 
                             {/* Password */}
                             <div className="space-y-2">

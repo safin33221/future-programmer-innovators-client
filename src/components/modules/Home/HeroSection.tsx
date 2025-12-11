@@ -20,7 +20,7 @@ export default function HeroSection() {
 
           <p className="mx-auto max-w-[720px] text-muted-foreground text-base md:text-xl leading-relaxed">
             Build Your Programming Career. Compete. Learn. Grow. Join the
-            premier digital programming club for Feni <b>Polytechnic Institute</b> students.
+            premier digital programming club for <b className="text-gray-900">Feni Polytechnic Institute</b> students.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">

@@ -8,13 +8,11 @@ export default function CodingTracksSection() {
             <div className="container px-4 md:px-8 mx-auto">
 
                 <div className="text-center space-y-6 mb-14">
-                    <SectionTitle title="Explore Your" highlight="Coding Path" />
+                    <SectionTitle title="Explore Your" highlight="Coding Path"
+                        subtitle="Choose a specialization and start mastering the skills that make top-tier developers. Future Programmer Innovators helps you grow with structured learning, real projects, and contest-ready training."
+                    />
 
-                    <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                        Choose a specialization and start mastering the skills that make
-                        top-tier developers. Future Programmer Innovators helps you grow with structured learning,
-                        real projects, and contest-ready training.
-                    </p>
+
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

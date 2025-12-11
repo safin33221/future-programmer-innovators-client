@@ -15,11 +15,11 @@ export function WhyJoin() {
 
         {/* Section Header */}
         <div className="text-center mb-16">
-          <SectionTitle title="Why Join" highlight="Future Programmer Innovators Club?" />
+          <SectionTitle title="Why Join" highlight="Future Programmer Innovators Club?"
+            subtitle="Unlock opportunities, learn real-world skills, and grow with a community of passionate programmers."
+          />
 
-          <p className="text-muted-foreground mt-4 max-w-2xl mx-auto text-lg leading-relaxed">
-            Unlock opportunities, learn real-world skills, and grow with a community of passionate programmers.
-          </p>
+
         </div>
 
         {/* Feature List */}

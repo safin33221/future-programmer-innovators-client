@@ -23,6 +23,7 @@ const NAV_ITEMS: NavItem[] = [
       { label: "About Club", href: "/about" },
       { label: "Vision & Mission", href: "/vision-mission" },
       { label: "Why Join?", href: "/why-join" },
+      { label: "Our Team", href: "/team" },
     ],
   },
   {

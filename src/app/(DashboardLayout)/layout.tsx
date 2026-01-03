@@ -3,18 +3,25 @@ import DashboardSidebar from "@/components/modules/dashboard/DashboardSidebar";
 
 export default function layout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="min-h-screen flex">
+        <div className="h-screen flex overflow-hidden">
+            {/* Sidebar */}
+            <aside className="w-64 h-full overflow-y-auto border-r max-md:hidden">
+                <DashboardSidebar />
+            </aside>
 
-            <DashboardSidebar />
-            {/* Main Content Area */}
-            <div className="flex flex-1 flex-col">
+            {/* Main Area */}
+            <div className="flex flex-1 flex-col overflow-hidden">
+                {/* Navbar */}
+                <div className="shrink-0">
+                    <DashboardNavbar />
+                </div>
 
-                <DashboardNavbar />
                 {/* Page Content */}
-                <main className="flex-1 p-6">
+                <main className="flex-1 overflow-y-auto p-6 mt-16">
                     {children}
                 </main>
             </div>
         </div>
     );
-};
+}
+

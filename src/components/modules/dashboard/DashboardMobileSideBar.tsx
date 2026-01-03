@@ -9,6 +9,7 @@ import { INavSection } from "@/types/dashboard/dashboard.interface";
 import { IUserInfo } from "@/types/user/user.interface";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Logo } from "@/components/common/Logo";
 
 interface DashboardMobileSidebarContentProps {
     userInfo: IUserInfo;
@@ -28,9 +29,7 @@ export default function DashboardMobileSideBar({
             {/* Logo */}
             <div className="flex h-16 items-center border-b px-6">
                 <Link href={`/`}>
-                    <span className="text-xl font-bold text-primary">
-                        PH Healthcare
-                    </span>
+                    <Logo />
                 </Link>
             </div>
 

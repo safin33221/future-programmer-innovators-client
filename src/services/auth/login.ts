@@ -4,6 +4,9 @@ import { serverFetch } from "@/lib/serverFetch";
 import { parse } from "cookie";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { setCookie } from "./tokenHandler";
+import { IUserRole } from "@/types/user/user.interface";
+import { getDefaultDashboardRoute } from "@/lib/auth-utils";
+import { redirect } from "next/navigation";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const login = async (
     _currentData: any,
@@ -12,6 +15,7 @@ export const login = async (
     success: boolean;
     message?: string;
     data?: any;
+    redirectTo?: string;
 }> => {
 
     let accessTokenObject: null | any = null;
@@ -30,7 +34,7 @@ export const login = async (
         });
 
         const result = await res.json();
-        console.log(result);
+  
 
         if (!res.ok) {
             return {
@@ -86,13 +90,15 @@ export const login = async (
             throw new Error("Invalid token format");
         }
 
+        const userRole: IUserRole = decodedToken.role
+        const redirectDirection = getDefaultDashboardRoute(userRole)
 
-
-        return {
-            success: true,
-            data: result,
-        };
-    } catch (error) {
+        redirect(redirectDirection)
+     
+    } catch (error: any) {
+        if (error?.digest?.startsWith('NEXT_REDIRECT')) {
+            throw error;
+        }
         console.error("Login error:", error);
         return {
             success: false,

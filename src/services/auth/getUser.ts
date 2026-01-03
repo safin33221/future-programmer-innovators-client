@@ -7,7 +7,7 @@ export const getUserInfo = async (): Promise<IUserInfo | null> => {
     try {
         const accessToken = await getCookies("accessToken")
         if (!accessToken) return null
-        console.log({ accessToken });
+    
 
         const secret = process.env.JWT_ACCESS_SECRET
         if (!secret) {

@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { UserDropdown } from "./UserDropdown";
 import DashboardMobileSideBar from "./DashboardMobileSideBar";
 import { INavSection } from "@/types/dashboard/dashboard.interface";
+import { Logo } from "@/components/common/Logo";
 
 interface DashboardNavbarContentProps {
     userInfo: IUserInfo;
@@ -41,7 +42,13 @@ export default function DashboardNavbarContent({
     }, []);
 
     return (
-        <header className="w-full h-16 border-b bg-white flex items-center px-6">
+        <header className="fixed top-0 left-0 z-50 w-full h-16 border-b bg-white flex items-center px-6">
+            {/* Logo Area */}
+            <div className="w-64 shrink-0 flex items-center max-md:hidden">
+                <Logo />
+            </div>
+
+            {/* Rest of Navbar */}
             <div className="flex items-center justify-end w-full gap-6">
                 {/* Mobile Menu */}
                 {isMobile && (
@@ -56,7 +63,6 @@ export default function DashboardNavbarContent({
                             <DashboardMobileSideBar
                                 userInfo={userInfo}
                                 navItems={navItems}
-                                // dashboardHome={dashboardHome}
                             />
                         </SheetContent>
                     </Sheet>
@@ -74,24 +80,16 @@ export default function DashboardNavbarContent({
 
                 {/* Notifications */}
                 <div className="relative">
-                    <button
-                        className="relative p-2 rounded-full hover:bg-gray-100"
-                        onClick={() => setIsNotificationOpen((prev) => !prev)}
-                    >
+                    <button className="p-2 rounded-full hover:bg-gray-100">
                         <Bell className="w-5 h-5 text-gray-600" />
                         <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
                     </button>
-
-                    {isNotificationOpen && (
-                        <div className="absolute right-0 mt-2 w-56 bg-white shadow-md rounded-md border p-3 text-sm">
-                            <p>No new notifications</p>
-                        </div>
-                    )}
                 </div>
 
                 {/* User Dropdown */}
                 <UserDropdown userInfo={userInfo} />
             </div>
         </header>
+
     );
 }

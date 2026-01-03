@@ -56,7 +56,7 @@ export function UserDropdown({ userInfo }: { userInfo: IUserInfo | null }) {
         <DropdownMenuSeparator />
 
         {/* Logout */}
-        <DropdownMenuItem className="p-0">
+        <DropdownMenuItem className="p-0 w-full ">
           <LogoutBtn />
         </DropdownMenuItem>
       </DropdownMenuContent>

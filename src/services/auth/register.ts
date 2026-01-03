@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { serverFetch } from "@/lib/serverFetch";
+
 export const register = async (
     _currentData: any,
     formData: FormData
@@ -13,14 +15,13 @@ export const register = async (
             password: String(formData.get("password")),
         };
 
-        const res = await fetch("http://localhost:5000/api/v1/user/registration", {
-            method: "POST",
+
+        const res = await serverFetch.post('/user/registration', {
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(payload),
-            cache: "no-store",
-        });
+        })
 
         const result = await res.json();
         console.log(result);

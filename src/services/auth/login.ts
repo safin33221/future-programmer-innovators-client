@@ -78,7 +78,15 @@ export const login = async (
             path: "/",
             maxAge: Number(accessTokenObject["Max-Age"]) || 7776000,
         });
-        
+
+
+        const decodedToken: JwtPayload | string = jwt.decode(accessTokenObject.accessToken) as JwtPayload;
+
+        if (!decodedToken || typeof decodedToken === "string") {
+            throw new Error("Invalid token format");
+        }
+
+
 
         return {
             success: true,

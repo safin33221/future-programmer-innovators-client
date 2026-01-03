@@ -5,15 +5,17 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { INavSection } from "@/types/dashboard/dashboard.interface";
+import { IUserInfo } from "@/types/user/user.interface";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 interface DashboardContentProps {
-    navItems: INavSection[]
+    navItems: INavSection[],
+    userInfo: IUserInfo
 }
-export default function DashboardSidebarContent({ navItems }: DashboardContentProps) {
+export default function DashboardSidebarContent({ navItems, userInfo }: DashboardContentProps) {
     const pathname = usePathname();
     return (
-        <div>
+        <div className="max-md:hidden">
             {/* Logo/Brand */}
             <div className="flex h-16 items-center border-b px-6">
                 <Link href={"dashboardHome"} className="flex items-center space-x-2">
@@ -66,8 +68,8 @@ export default function DashboardSidebarContent({ navItems }: DashboardContentPr
 
                                 </div>
                                 {sectionId < navItems.length - 1 && (
-                                <Separator className="my-4" />
-                            )}
+                                    <Separator className="my-4" />
+                                )}
 
                             </div>
                         ))
@@ -75,6 +77,22 @@ export default function DashboardSidebarContent({ navItems }: DashboardContentPr
 
                 </nav>
             </ScrollArea>
+            {/* User Info at Bottom - Fixed at bottom */}
+            <div className="shrink-0 border-t bottom-5 p-4 fixed">
+                <div className="flex items-center gap-3">
+                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <span className="text-sm font-semibold text-primary">
+                            {userInfo?.email?.charAt(0).toUpperCase()}
+                        </span>
+                    </div>
+                    <div className="flex-1 overflow-hidden">
+                        <p className="text-sm font-medium truncate">{userInfo.name}</p>
+                        <p className="text-xs text-black capitalize">
+                            {userInfo?.role?.toLowerCase()}
+                        </p>
+                    </div>
+                </div>
+            </div>
 
 
         </div>

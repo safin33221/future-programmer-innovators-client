@@ -7,14 +7,14 @@ import { IUserInfo, IUserRole } from "@/types/user/user.interface";
 export default async function DashboardSidebar() {
     const userInfo = (await getUserInfo()) as IUserInfo
     if (!userInfo) {
-   
-    return null
-  }
+
+        return null
+    }
 
     const navItems: INavSection[] = getNavItemByRole(userInfo.role as IUserRole)
     return (
         <div>
-            <DashboardSidebarContent navItems={navItems} />
+            <DashboardSidebarContent navItems={navItems} userInfo={userInfo} />
         </div>
     );
 };

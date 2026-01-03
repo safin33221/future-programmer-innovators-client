@@ -1,3 +1,4 @@
+import DashboardNavbar from "@/components/modules/dashboard/DashboardNavbar";
 import DashboardSidebar from "@/components/modules/dashboard/DashboardSidebar";
 
 export default function layout({ children }: { children: React.ReactNode }) {
@@ -8,7 +9,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
             {/* Main Content Area */}
             <div className="flex flex-1 flex-col">
 
-                <h1>dashboard Navbar</h1>
+                <DashboardNavbar />
                 {/* Page Content */}
                 <main className="flex-1 p-6">
                     {children}

@@ -1,0 +1,1 @@
+export type IUserRole = "ADMIN" | "MEMBER" | "MENTOR" | "GUEST"

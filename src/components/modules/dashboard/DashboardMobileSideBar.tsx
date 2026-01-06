@@ -14,18 +14,21 @@ import { Logo } from "@/components/common/Logo";
 interface DashboardMobileSidebarContentProps {
     userInfo: IUserInfo;
     navItems?: INavSection[];
+    setIsSidebarOpen: (open: boolean) => void
+
     //   dashboardHome?: string;
 }
 
 export default function DashboardMobileSideBar({
     userInfo,
     navItems,
+    setIsSidebarOpen
     //   dashboardHome,
 }: DashboardMobileSidebarContentProps) {
     const pathname = usePathname();
 
     return (
-        <div className="flex h-full flex-col">
+        <div className="flex flex-col scroll-auto">
             {/* Logo */}
             <div className="flex h-16 items-center border-b px-6">
                 <Link href={`/`}>
@@ -41,7 +44,7 @@ export default function DashboardMobileSideBar({
                     {navItems?.map((section, sectionIdx) => (
                         <div key={sectionIdx}>
                             {section.title && (
-                                <h4 className="mb-2 px-3 text-xs font-semibold text-muted-foreground uppercase">
+                                <h4 className="mb-2 px-3 text-xs text-muted-foreground uppercase font-bold">
                                     {section.title}
                                 </h4>
                             )}
@@ -54,11 +57,12 @@ export default function DashboardMobileSideBar({
                                         <Link
                                             key={item.href}
                                             href={item.href}
+                                            onClick={() => setIsSidebarOpen(false)}
                                             className={cn(
                                                 "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all",
                                                 isActive
                                                     ? "bg-primary text-primary-foreground"
-                                                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                                                    : "hover:bg-accent text-black"
                                             )}
                                         >
                                             <span className="flex-1">{item.title}</span>

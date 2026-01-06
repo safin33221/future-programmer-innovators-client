@@ -1,9 +1,13 @@
+import { getCookies } from "@/services/auth/tokenHandler"
+
 const BackendURL = process.env.NEXT_PUBLIC_BACKEND_URL
 const serverFetchHelper = async (endpoint: string, options: RequestInit): Promise<Response> => {
     const { headers, ...restOptions } = options
+    const accessToken = await getCookies("accessToken")
+    console.log({ accessToken });
     const response = await fetch(`${BackendURL}${endpoint}`, {
         headers: {
-            cookies: "",
+            Cookie: accessToken ? `accessToken=${accessToken}` : "",
             ...headers
         },
         ...restOptions

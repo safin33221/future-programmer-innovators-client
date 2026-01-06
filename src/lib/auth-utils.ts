@@ -9,7 +9,7 @@ export const getDefaultDashboardRoute = (role: IUserRole) => {
         case "MENTOR":
             return '/mentor/dashboard';
         case "GUEST":
-            return '/guest/dashboard';
+            return '/membership-application';
         default:
             return '/login';
     }

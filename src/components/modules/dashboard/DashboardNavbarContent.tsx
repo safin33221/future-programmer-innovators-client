@@ -63,6 +63,7 @@ export default function DashboardNavbarContent({
                             <DashboardMobileSideBar
                                 userInfo={userInfo}
                                 navItems={navItems}
+                                setIsSidebarOpen={setIsSidebarOpen}
                             />
                         </SheetContent>
                     </Sheet>

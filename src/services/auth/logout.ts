@@ -5,4 +5,4 @@ export const logout = async () => {
     await deleteCookies("accessToken")
     await deleteCookies("refreshToken")
     redirect("/")
-}
+} 

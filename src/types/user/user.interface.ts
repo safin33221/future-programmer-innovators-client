@@ -24,6 +24,8 @@ export interface IUser {
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
+    profilePhoto?: string;
+    phone?: string
 
     // one-to-one profile relations
     // admin?: IAdmin | null;

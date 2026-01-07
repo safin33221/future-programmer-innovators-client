@@ -1,7 +1,16 @@
 import DashboardNavbar from "@/components/modules/dashboard/DashboardNavbar";
 import DashboardSidebar from "@/components/modules/dashboard/DashboardSidebar";
+import { getCookies } from "@/services/auth/tokenHandler";
+import { redirect } from "next/navigation";
 
-export default function layout({ children }: { children: React.ReactNode }) {
+export default async function layout({ children }: { children: React.ReactNode }) {
+
+
+    const accessToken = await getCookies("accessToken")
+    if (!accessToken) {
+        redirect("/")
+
+    }
     return (
         <div className="h-screen flex overflow-hidden">
             {/* Sidebar */}

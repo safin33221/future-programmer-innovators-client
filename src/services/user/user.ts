@@ -1,14 +1,38 @@
-"use server"
+"use server";
 
-import { serverFetch } from "@/lib/serverFetch"
+import { serverFetch } from "@/lib/serverFetch";
 
-export const getAllUser = async () => {
+type GetAllUserParams = {
+    searchTerm?: string;
+    role?: string;
+    page?: number;
+    limit?: number;
+    sortBy?: string;
+    sortOrder?: "asc" | "desc";
+};
+
+export const getAllUser = async (params?: GetAllUserParams) => {
     try {
-        const res = await serverFetch.get("/user")
-        const result = await res.json()
-        return result
-    } catch (error) {
-        console.log(error);
+        const query = new URLSearchParams();
 
+        if (params?.searchTerm) query.append("searchTerm", params.searchTerm);
+        if (params?.role) query.append("role", params.role);
+        if (params?.page) query.append("page", params.page.toString());
+        if (params?.limit) query.append("limit", params.limit.toString());
+        if (params?.sortBy) query.append("sortBy", params.sortBy);
+        if (params?.sortOrder) query.append("sortOrder", params.sortOrder);
+
+        const url = query.toString()
+            ? `/user?${query.toString()}`
+            : "/user";
+
+        const res = await serverFetch.get(url);
+        const result = await res.json();
+
+        return result;
+    } catch (error) {
+        console.error("Get users error:", error);
+        throw error;
     }
-}
+};
+    

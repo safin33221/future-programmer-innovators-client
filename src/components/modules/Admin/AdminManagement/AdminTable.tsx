@@ -12,6 +12,7 @@ interface AdminTableProps {
 
 export default function AdminTable({ users }: AdminTableProps) {
     const [viewingAdmin, setViewingAdmin] = useState<IUser | null>(null);
+    console.log(users);
 
     const handleView = (user: IUser) => {
         setViewingAdmin(user);

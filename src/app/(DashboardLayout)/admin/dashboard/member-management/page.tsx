@@ -1,8 +1,14 @@
+import MemberTable from "@/components/modules/Admin/MemberManagement/MemberTable";
+import { getAllUser } from "@/services/user/user";
+import { UserRole } from "@/types/user/user.interface";
 
-export default function page()  {
+export default async function page() {
+  const res = await getAllUser({ role: UserRole.MEMBER });
+  const allUsers = res.data.data;
+
   return (
     <div>
-      <h1>Member Component</h1>
+      <MemberTable users={allUsers} />
     </div>
   );
-};
+}

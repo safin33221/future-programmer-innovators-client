@@ -9,7 +9,7 @@ export interface IUserInfo {
 export enum UserRole {
     GUEST = "GUEST",
     ADMIN = "ADMIN",
-    STUDENT = "STUDENT",
+    MEMBER = "MEMBER",
     MENTOR = "MENTOR",
     MODERATOR = "MODERATOR",
 }

@@ -1,11 +1,11 @@
-import { getUserInfo } from "@/services/auth/getUser"
-import { IUserInfo, IUserRole } from "@/types/user/user.interface"
+import { IUserRole } from "@/types/user/user.interface"
 import DashboardNavbarContent from "./DashboardNavbarContent"
 import { getNavItemByRole } from "@/lib/navItem.config"
 import { INavSection } from "@/types/dashboard/dashboard.interface"
+import { getMe } from "@/services/user/user"
 
 export default async function DashboardNavbar() {
-    const userInfo = (await getUserInfo()) as IUserInfo
+    const userInfo = (await getMe())
     if (!userInfo) {
 
         return null

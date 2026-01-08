@@ -35,4 +35,14 @@ export const getAllUser = async (params?: GetAllUserParams) => {
         throw error;
     }
 };
-    
+
+export const getMe = async () => {
+    try {
+        const res = await serverFetch.get("/user/me");
+        const result = await res.json();
+        return result;
+    } catch (error) {
+        console.error("Get me error:", error);
+        throw error;
+    }
+};

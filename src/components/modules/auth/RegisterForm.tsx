@@ -86,7 +86,7 @@ export default function RegisterForm() {
                                 </Field>
                             </FieldGroup>
 
-                            <Button className="w-full">Create Account</Button>
+                            <Button disabled={isPending} className="w-full">{isPending ? "Creating..." : "Create Account"}</Button>
                         </CardContent>
                     </form>
 

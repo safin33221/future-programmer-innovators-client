@@ -2,6 +2,7 @@
 "use server";
 
 import { serverFetch } from "@/lib/serverFetch";
+import { login } from "./login";
 
 export const register = async (
     _currentData: any,
@@ -24,7 +25,7 @@ export const register = async (
         })
 
         const result = await res.json();
- 
+
 
         if (!res.ok) {
             return {
@@ -33,15 +34,26 @@ export const register = async (
             };
         }
 
+        if (result.success) {
+            const loginFormData = new FormData()
+            loginFormData.append("email", payload.email)
+            loginFormData.append("password", payload.password)
+            await login(_currentData, loginFormData)
+
+        }
+
         return {
             success: true,
             data: result,
         };
-    } catch (error) {
-        console.error("Register error:", error);
+    } catch (error: any) {
+        if (error?.digest?.startsWith("NEXT_REDIRECT")) {
+            throw error;
+        }
+
         return {
             success: false,
-            message: "Something went wrong",
+            message: error.message || "Registration failed"
         };
     }
 };

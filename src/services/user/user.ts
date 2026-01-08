@@ -46,3 +46,13 @@ export const getMe = async () => {
         throw error;
     }
 };
+
+export const softDelete = async (id: string) => {
+    try {
+        const res = await serverFetch.patch(`/user/soft-delete/${id}`);
+        return await res.json();
+    } catch (error) {
+        console.error("Soft delete user error:", error);
+        throw error;
+    }
+};

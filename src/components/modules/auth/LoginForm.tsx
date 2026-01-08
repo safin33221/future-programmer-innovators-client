@@ -14,13 +14,18 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { login } from "@/services/auth/login";
+import toast from "react-hot-toast";
 
 export default function LoginForm() {
   const [state, formAction, isPending] = useActionState(login, null);
 
-  
+  useEffect(() => {
+    if (state && state.message) {
+      toast.error(state.message)
+    }
+  }, [state])
 
   return (
     <Card className="w-full max-w-md mx-auto shadow-sm">

@@ -2,17 +2,16 @@ import { DateCell } from "@/components/shared/cell/DateCell";
 import { columns } from "@/components/shared/ManagementTable";
 import { IUser } from "@/types/user/user.interface";
 
-
-export const MemberColumn: columns<IUser>[] = [
+export const MentorColumn: columns<IUser>[] = [
   {
     header: "Name",
-    accessor: (member) => (
+    accessor: (mentor) => (
       <div className="flex flex-col">
         <span className="text-sm font-medium text-foreground">
-          {member.firstName} {member.lastName}
+          {mentor.firstName} {mentor.lastName}
         </span>
         <span className="text-xs text-muted-foreground">
-          ID: {member.id}
+          ID: {mentor.id}
         </span>
       </div>
     ),
@@ -20,18 +19,28 @@ export const MemberColumn: columns<IUser>[] = [
 
   {
     header: "Email",
-    accessor: (member) => (
+    accessor: (mentor) => (
       <span className="text-sm text-muted-foreground">
-        {member.email}
+        {mentor.email}
       </span>
     ),
   },
 
   {
-    header: "Role",
-    accessor: (member) => (
-      <span className="text-sm font-semibold uppercase tracking-wide">
-        {member.role}
+    header: "Expertise",
+    accessor: (mentor) => (
+      <span className="text-sm font-medium text-foreground">
+        {mentor?.mentor?.expertise ?? "—"}
+      </span>
+    ),
+    className: "text-center",
+  },
+
+  {
+    header: "Designation",
+    accessor: (mentor) => (
+      <span className="text-sm text-muted-foreground">
+        {mentor?.mentor?.designation ?? "—"}
       </span>
     ),
     className: "text-center",
@@ -39,15 +48,16 @@ export const MemberColumn: columns<IUser>[] = [
 
   {
     header: "Status",
-    accessor: (member) => (
+    accessor: (mentor) => (
       <span
         className={`inline-flex items-center justify-center rounded-full px-2 py-0.5 text-xs font-medium
-          ${member.isActive 
-            ? "bg-emerald-100 text-emerald-700"
-            : "bg-red-100 text-red-700"
+          ${
+            mentor.isActive
+              ? "bg-emerald-100 text-emerald-700"
+              : "bg-red-100 text-red-700"
           }`}
       >
-        {member.isActive ? "Active":"InActive"}
+        {mentor.isActive ? "Active" : "InActive"}
       </span>
     ),
     className: "text-center",
@@ -55,15 +65,16 @@ export const MemberColumn: columns<IUser>[] = [
 
   {
     header: "Verification",
-    accessor: (member) => (
+    accessor: (mentor) => (
       <span
         className={`inline-flex items-center justify-center rounded-full px-2 py-0.5 text-xs font-medium
-          ${member.isVerified
-            ? "bg-green-100 text-green-700"
-            : "bg-yellow-100 text-yellow-700"
+          ${
+            mentor.isVerified
+              ? "bg-green-100 text-green-700"
+              : "bg-yellow-100 text-yellow-700"
           }`}
       >
-        {member.isVerified ? "Verified" : "Unverified"}
+        {mentor.isVerified ? "Verified" : "Unverified"}
       </span>
     ),
     className: "text-center",
@@ -71,9 +82,9 @@ export const MemberColumn: columns<IUser>[] = [
 
   {
     header: "Joined At",
-    accessor: (member) => (
+    accessor: (mentor) => (
       <span className="text-sm text-muted-foreground">
-        <DateCell date={member.createdAt} />
+        <DateCell date={mentor.createdAt} />
       </span>
     ),
   },

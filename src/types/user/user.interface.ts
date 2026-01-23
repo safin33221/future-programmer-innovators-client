@@ -24,7 +24,7 @@ export interface IUserInfo {
    MAIN USER INTERFACE
 ========================= */
 
-export interface IUser {
+export interface UserInfo {
   id: string;
 
   firstName: string;
@@ -35,18 +35,19 @@ export interface IUser {
 
   isVerified: boolean;
   isActive: boolean;
+  isDelete: boolean;
 
-  createdAt: Date;
-  updatedAt: Date;
+  lastLoginAt?: string;
+  passwordChangedAt?: string;
+  emailVerifiedAt?: string;
 
-  profilePhoto?: string;
-  phone?: string;
+  createdAt: string;
+  updatedAt: string;
 
-  // one-to-one role profiles
-  admin?: IAdmin | null;
-  member?: IMember | null;
-  mentor?: IMentor | null;
-  moderator?: IModerator | null;
+  admin?: IAdmin;
+  member?: IMember;
+  mentor?: IMentor;
+  moderator?: IModerator;
 }
 
 /* =========================

@@ -1,4 +1,5 @@
-import { IUserRole } from "../user/user.interface";
+
+
 
 export interface INavItems {
     title: string,
@@ -6,7 +7,7 @@ export interface INavItems {
     icon: string;
     badge?: string | number
     description?: string;
-    role: IUserRole[]
+    role: string[]
 }
 
 export interface INavSection {

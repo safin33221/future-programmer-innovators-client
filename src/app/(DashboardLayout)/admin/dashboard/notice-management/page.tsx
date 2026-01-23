@@ -1,8 +1,18 @@
 
-export default function page() {
+import NoticeManagementHeader from "@/components/modules/Admin/NoticeManagement/NoticeManagementHeader";
+import NoticeTable from "@/components/modules/Admin/NoticeManagement/NoticeTable";
+import { getAllNoticesForAdmin } from "@/services/notice/notice.service";
+
+
+export default async function page() {
+    const res = await getAllNoticesForAdmin();
+    const notices = res.data.data
+    console.log(notices);
+
     return (
         <div>
-            <h1>Notice Management Component</h1>
+            <NoticeManagementHeader />
+            <NoticeTable notices={notices} />
         </div>
     );
-};
+}

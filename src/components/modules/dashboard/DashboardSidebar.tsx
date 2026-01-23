@@ -2,7 +2,7 @@ import { INavSection } from "@/types/dashboard/dashboard.interface";
 import DashboardSidebarContent from "./DashboardSidebarContent";
 import { getUserInfo } from "@/services/auth/getUser";
 import { getNavItemByRole } from "@/lib/navItem.config";
-import { IUserInfo, IUserRole } from "@/types/user/user.interface";
+import { IUserInfo, UserRole } from "@/types/user/user.interface";
 
 export default async function DashboardSidebar() {
     const userInfo = (await getUserInfo()) as IUserInfo
@@ -11,7 +11,7 @@ export default async function DashboardSidebar() {
         return null
     }
 
-    const navItems: INavSection[] = getNavItemByRole(userInfo.role as IUserRole)
+    const navItems: INavSection[] = getNavItemByRole(userInfo.role as UserRole)
     return (
         <div>
             <DashboardSidebarContent navItems={navItems} userInfo={userInfo} />

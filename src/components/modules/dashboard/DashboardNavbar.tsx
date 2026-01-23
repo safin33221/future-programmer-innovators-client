@@ -1,8 +1,9 @@
-import { IUserRole } from "@/types/user/user.interface"
+
 import DashboardNavbarContent from "./DashboardNavbarContent"
 import { getNavItemByRole } from "@/lib/navItem.config"
 import { INavSection } from "@/types/dashboard/dashboard.interface"
 import { getMe } from "@/services/user/user"
+import { UserRole } from "@/types/user/user.interface"
 
 export default async function DashboardNavbar() {
     const userInfo = (await getMe())
@@ -10,7 +11,7 @@ export default async function DashboardNavbar() {
 
         return null
     }
-    const navItems: INavSection[] = getNavItemByRole(userInfo.role as IUserRole)
+    const navItems: INavSection[] = getNavItemByRole(userInfo.role as UserRole)
     return <DashboardNavbarContent userInfo={userInfo} navItems={navItems} />
 
 };

@@ -4,9 +4,11 @@ import { serverFetch } from "@/lib/serverFetch";
 import { parse } from "cookie";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { setCookie } from "./tokenHandler";
-import { IUserRole } from "@/types/user/user.interface";
+
 import { getDefaultDashboardRoute } from "@/lib/auth-utils";
 import { redirect } from "next/navigation";
+import { UserRole } from "@/types/user/user.interface";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const login = async (
     _currentData: any,
@@ -34,7 +36,7 @@ export const login = async (
         });
 
         const result = await res.json();
-  
+
 
         if (!res.ok) {
             return {
@@ -90,11 +92,11 @@ export const login = async (
             throw new Error("Invalid token format");
         }
 
-        const userRole: IUserRole = decodedToken.role
+        const userRole: UserRole = decodedToken.role
         const redirectDirection = getDefaultDashboardRoute(userRole)
 
         redirect(redirectDirection)
-     
+
     } catch (error: any) {
         if (error?.digest?.startsWith('NEXT_REDIRECT')) {
             throw error;

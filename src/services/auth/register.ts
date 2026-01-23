@@ -17,7 +17,7 @@ export const register = async (
         };
 
 
-        const res = await serverFetch.post('/user/registration', {
+        const res = await serverFetch.post('/auth/registration', {
             headers: {
                 "Content-Type": "application/json",
             },

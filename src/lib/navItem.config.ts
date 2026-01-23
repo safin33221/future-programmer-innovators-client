@@ -1,9 +1,10 @@
 import { INavSection } from "@/types/dashboard/dashboard.interface"
-import { IUserRole } from "@/types/user/user.interface"
+
 import { getDefaultDashboardRoute } from "./auth-utils";
+import { UserRole } from "@/types/user/user.interface";
 
 /* ===================== COMMON ===================== */
-export const getCommonNavItems = (role: IUserRole): INavSection[] => {
+export const getCommonNavItems = (role: UserRole): INavSection[] => {
     const defaultDashboard = getDefaultDashboardRoute(role);
     return [
         {
@@ -237,7 +238,7 @@ export const guestNavItem: INavSection[] = [
 ]
 
 /* ===================== ROLE SWITCH ===================== */
-export const getNavItemByRole = (role: IUserRole) => {
+export const getNavItemByRole = (role: UserRole) => {
     const commonNavItem = getCommonNavItems(role)
 
     switch (role) {

@@ -1,6 +1,9 @@
-import { IUserRole } from "@/types/user/user.interface";
+import { UserRole } from "@/types/user/user.interface";
 
-export const getDefaultDashboardRoute = (role: IUserRole) => {
+
+
+
+export const getDefaultDashboardRoute = (role: UserRole) => {
     switch (role) {
         case "ADMIN":
             return '/admin/dashboard';

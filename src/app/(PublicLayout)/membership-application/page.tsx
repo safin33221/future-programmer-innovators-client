@@ -3,10 +3,19 @@
 import ApplicationFrom from "@/components/modules/membershipApplication/ApplicationFrom";
 import { getUserInfo } from "@/services/auth/getUser";
 import { UserInfo } from "@/types/user/user.interface";
+import { redirect } from "next/navigation";
+
 
 export default async function MembershipApplication() {
 
     const userInfo = await getUserInfo()
+
+
+
+    if (!userInfo || userInfo.role !== "GUEST") {
+        redirect("/")
+    }
+
     return (
         <div className="container py-20 px-4 md:px-6 max-w-4xl mx-auto">
 

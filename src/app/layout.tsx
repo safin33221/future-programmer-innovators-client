@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import  { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -15,10 +16,16 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+/* ✅ ONLY viewport export */
 export const viewport: Viewport = {
-  themeColor: 'black',
-}
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#000000",
+};
 
+/* ✅ CLEAN metadata (NO viewport, NO themeColor) */
 export const metadata: Metadata = {
   metadataBase: new URL("https://your-domain.com"),
   title: {
@@ -66,17 +73,10 @@ export const metadata: Metadata = {
       "A modern digital coding club helping diploma students become world-class programmers.",
     images: ["/og-image.png"],
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
   robots: {
     index: true,
     follow: true,
   },
-  themeColor: "#ffffff",
   applicationName: "Future Programmer Innovators",
   category: "Education",
   alternates: {
@@ -99,9 +99,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -115,7 +115,7 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
-        <Toaster position="top-center"  />
+        <Toaster position="top-center" />
       </body>
     </html>
   );

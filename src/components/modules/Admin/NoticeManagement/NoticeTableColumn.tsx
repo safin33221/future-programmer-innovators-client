@@ -30,7 +30,7 @@ export const NoticeColumn: columns<INotice>[] = [
     {
         header: "Content",
         accessor: (notice) => (
-            <span className="text-sm text-muted-foreground line-clamp-1 max-w-[220px]">
+            <span className="text-sm text-muted-foreground line-clamp-1 max-w-55">
                 {notice.content ?? "—"}
             </span>
         ),

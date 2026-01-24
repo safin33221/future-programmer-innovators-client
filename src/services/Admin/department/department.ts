@@ -28,7 +28,7 @@ export const createDepartment = async (
             name: formData.get("name") as string,
         };
 
-        const res = await serverFetch.post("/departments", {
+        const res = await serverFetch.post("/department", {
             headers: {
                 "Content-Type": "application/json",
             },
@@ -61,14 +61,18 @@ export const createDepartment = async (
 /* =========================
    Get All Departments (Public)
 ========================= */
-export const getAllDepartments = async (): Promise<Department[]> => {
-    const res = await serverFetch.get("/departments");
+export const getAllDepartments = async (): Promise<any> => {
+    try {
+        const res = await serverFetch.get("/department");
 
-    if (!res.ok) {
-        throw new Error("Failed to fetch departments");
+        if (!res.ok) {
+            throw new Error("Failed to fetch departments");
+        }
+
+        return res.json();
+    } catch (error) {
+        console.log(error);
     }
-
-    return res.json();
 };
 
 /* =========================

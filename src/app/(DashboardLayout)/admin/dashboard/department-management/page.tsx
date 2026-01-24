@@ -1,8 +1,18 @@
+import DepartmentManagementHeader from "@/components/modules/Admin/DepartmentManagement/DepartmentManagementHeader";
+import DepartmentTable from "@/components/modules/Admin/DepartmentManagement/DepartmentTable";
+import { getAllDepartments } from "@/services/Admin/department/department";
 
-export default function page() {
+
+export default async function page() {
+    const res = await getAllDepartments();
+    console.log(res);
+    const departments = res.data
+
     return (
         <div>
-            <h1>page Component</h1>
+            <DepartmentManagementHeader />
+            <DepartmentTable departments={departments} />
         </div>
     );
-};
+}
+

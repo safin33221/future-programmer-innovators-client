@@ -17,8 +17,9 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { submitMembershipApplication } from "@/services/member/membershipApplication";
+import toast from "react-hot-toast";
 
 interface ApplicationFormProps {
     userInfo: UserInfo
@@ -31,6 +32,19 @@ const ApplicationFrom = ({ userInfo }: ApplicationFormProps) => {
         submitMembershipApplication,
         null
     );
+
+    /* 🔥 TOAST HANDLER */
+    useEffect(() => {
+        if (!state) return;
+
+        if (state.success) {
+            toast.success(state.message || "Application submitted successfully");
+        }
+
+        if (state.success === false) {
+            toast.error(state.message || "Something went wrong");
+        }
+    }, [state]);
 
     console.log(state);
 

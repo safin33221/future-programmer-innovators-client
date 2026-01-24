@@ -26,22 +26,22 @@ export async function submitMembershipApplication(
         console.log(payload);
 
 
-        // const res = await serverFetch.post("/member/application", {
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     credentials: "include",
-        //     body: JSON.stringify(payload),
-        // })
+        const res = await serverFetch.post("/member/create-member-application", {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(payload),
+        })
 
-        // const result = await res.json();
+        const result = await res.json();
 
-        // if (!res.ok || !result.success) {
-        //     return {
-        //         success: false,
-        //         message: result.message || "Application submission failed",
-        //     };
-        // }
+        if (!res.ok || !result.success) {
+            return {
+                success: false,
+                message: result.message || "Application submission failed",
+            };
+        }
 
         revalidatePath("/membership-application");
 

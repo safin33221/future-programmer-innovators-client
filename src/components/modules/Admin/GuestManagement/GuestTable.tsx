@@ -1,32 +1,33 @@
 "use client"
 import ManagementTable from "@/components/shared/ManagementTable";
-import { IUser } from "@/types/user/user.interface";
+
 import { GuestColumn } from "./GuestTableColumn";
 import { useState } from "react";
 import GuestViewDetailDialog from "./GuestViewDetailDialog";
 import { softDelete } from "@/services/user/user";
 import toast from "react-hot-toast";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
+import { UserInfo } from "@/types/user/user.interface";
 
 interface GuestTableProps {
-    users: IUser[];
+    users: UserInfo[];
 }
 
 
 
 
 export default function GuestTable({ users }: GuestTableProps) {
-    const [viewingGuest, setViewingGuest] = useState<IUser | null>(null);
-    const [deleting, setDeleting] = useState<IUser | null>(null);
+    const [viewingGuest, setViewingGuest] = useState<UserInfo | null>(null);
+    const [deleting, setDeleting] = useState<UserInfo | null>(null);
 
     const [isDeletingDialog, setIsDeletingDialog] = useState(false);
-    const handleDelete = async (user: IUser) => {
+    const handleDelete = async (user: UserInfo) => {
         setDeleting(user)
     }
-    const handleView = (user: IUser) => {
+    const handleView = (user: UserInfo) => {
         setViewingGuest(user)
     }
-    const handleEdit = (user: IUser) => {
+    const handleEdit = (user: UserInfo) => {
         setViewingGuest(user)
     }
 

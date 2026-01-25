@@ -93,12 +93,14 @@ export const getDepartmentById = async (
 /* =========================
    Delete Department (Admin)
 ========================= */
-export const deleteDepartment = async (id: string) => {
-    const res = await serverFetch.delete(`/departments/${id}`);
+export const softDeleteDepartment = async (id: string) => {
+    const res = await serverFetch.patch(`/department/${id}`);
 
-    if (!res.ok) {
-        throw new Error("Failed to delete department");
+    const result = await res.json();
+
+    if (result.success === false) {
+        throw new Error(result.message || "Failed to delete department");
     }
 
-    return res.json();
+    return result;
 };

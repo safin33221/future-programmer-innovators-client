@@ -85,6 +85,12 @@ export const adminNavItem: INavSection[] = [
                 role: ["ADMIN"],
             },
             {
+                title: "Session",
+                href: "/admin/dashboard/session-management",
+                icon: "BookOpen",
+                role: ["ADMIN"],
+            },
+            {
                 title: "Batches / Sessions",
                 href: "/admin/dashboard/batch-management",
                 icon: "Calendar",

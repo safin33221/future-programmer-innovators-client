@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import DashboardNavbar from "@/components/modules/dashboard/DashboardNavbar";
 import DashboardSidebar from "@/components/modules/dashboard/DashboardSidebar";
 import { getCookies } from "@/services/auth/tokenHandler";

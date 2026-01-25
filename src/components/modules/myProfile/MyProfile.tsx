@@ -28,7 +28,7 @@ interface MyProfileProps {
 const MyProfile = ({ userInfo }: MyProfileProps) => {
 
 
-    const [isPending, startTransition] = useTransition();
+    const [isPending, _startTransition] = useTransition();
     const [previewImage, setPreviewImage] = useState<string | null>(null);
 
     const profile =

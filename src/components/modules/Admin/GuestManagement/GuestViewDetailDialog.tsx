@@ -1,6 +1,6 @@
 
 import InfoRow from "@/components/shared/InfoRow";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
     Dialog,
@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { formatDateTime, getInitials } from "@/lib/formatters";
-import { IUser } from "@/types/user/user.interface";
+import { UserInfo } from "@/types/user/user.interface";
 import {
     Calendar,
     Mail,
@@ -23,7 +23,7 @@ import {
 interface IGuestViewDetailDialogProps {
     open: boolean;
     onClose: () => void;
-    guest: IUser | null;
+    guest: UserInfo | null;
 }
 
 const GuestViewDetailDialog = ({
@@ -44,7 +44,7 @@ const GuestViewDetailDialog = ({
                     {/* Profile Header */}
                     <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-muted/40 rounded-lg mb-6">
                         <Avatar className="h-24 w-24 border shadow">
-                            <AvatarImage src={guest?.profilePhoto} />
+                            {/* <AvatarImage src={guest?.} /> */}
                             <AvatarFallback className="text-2xl">
                                 {getInitials(
                                     `${guest.firstName} ${guest.lastName}`
@@ -121,10 +121,10 @@ const GuestViewDetailDialog = ({
                                     label="Email Address"
                                     value={guest.email}
                                 />
-                                <InfoRow
+                                {/* <InfoRow
                                     label="Phone Number"
                                     value={guest?.phone || "Not provided"}
-                                />
+                                /> */}
                             </div>
                         </div>
 

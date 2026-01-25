@@ -1,8 +1,9 @@
 import { DateCell } from "@/components/shared/cell/DateCell";
 import { columns } from "@/components/shared/ManagementTable";
-import { IUser } from "@/types/user/user.interface";
+import { UserInfo } from "@/types/user/user.interface";
 
-export const GuestColumn: columns<IUser>[] = [
+
+export const GuestColumn: columns<UserInfo>[] = [
   {
     header: "Name",
     accessor: (guest) => (

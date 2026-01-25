@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { formatDateTime, getInitials } from "@/lib/formatters";
-import { IUser } from "@/types/user/user.interface";
+import { UserInfo } from "@/types/user/user.interface";
 import {
     Calendar,
     Mail,
@@ -22,7 +22,7 @@ import {
 interface IMemberViewDialogProps {
     open: boolean;
     onClose: () => void;
-    member: IUser | null;
+    member: UserInfo | null;
 }
 
 const MemberViewDialog = ({
@@ -43,7 +43,7 @@ const MemberViewDialog = ({
                     {/* Profile Header */}
                     <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-muted/40 rounded-lg mb-6">
                         <Avatar className="h-24 w-24 border shadow">
-                            <AvatarImage src={member.profilePhoto} />
+                            <AvatarImage src={member.member?.profileImage} />
                             <AvatarFallback className="text-2xl">
                                 {getInitials(
                                     `${member.firstName} ${member.lastName}`
@@ -122,10 +122,10 @@ const MemberViewDialog = ({
                                     label="Email Address"
                                     value={member.email}
                                 />
-                                <InfoRow
+                                {/* <InfoRow
                                     label="Phone Number"
                                     value={member.phone || "Not provided"}
-                                />
+                                /> */}
                             </div>
                         </div>
 

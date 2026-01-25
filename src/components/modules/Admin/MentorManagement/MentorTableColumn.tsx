@@ -1,8 +1,8 @@
 import { DateCell } from "@/components/shared/cell/DateCell";
 import { columns } from "@/components/shared/ManagementTable";
-import { IUser } from "@/types/user/user.interface";
+import { UserInfo } from "@/types/user/user.interface";
 
-export const MentorColumn: columns<IUser>[] = [
+export const MentorColumn: columns<UserInfo>[] = [
   {
     header: "Name",
     accessor: (mentor) => (
@@ -51,10 +51,9 @@ export const MentorColumn: columns<IUser>[] = [
     accessor: (mentor) => (
       <span
         className={`inline-flex items-center justify-center rounded-full px-2 py-0.5 text-xs font-medium
-          ${
-            mentor.isActive
-              ? "bg-emerald-100 text-emerald-700"
-              : "bg-red-100 text-red-700"
+          ${mentor.isActive
+            ? "bg-emerald-100 text-emerald-700"
+            : "bg-red-100 text-red-700"
           }`}
       >
         {mentor.isActive ? "Active" : "InActive"}
@@ -68,10 +67,9 @@ export const MentorColumn: columns<IUser>[] = [
     accessor: (mentor) => (
       <span
         className={`inline-flex items-center justify-center rounded-full px-2 py-0.5 text-xs font-medium
-          ${
-            mentor.isVerified
-              ? "bg-green-100 text-green-700"
-              : "bg-yellow-100 text-yellow-700"
+          ${mentor.isVerified
+            ? "bg-green-100 text-green-700"
+            : "bg-yellow-100 text-yellow-700"
           }`}
       >
         {mentor.isVerified ? "Verified" : "Unverified"}

@@ -1,9 +1,10 @@
 import { DateCell } from "@/components/shared/cell/DateCell";
 import { columns } from "@/components/shared/ManagementTable";
-import { IUser } from "@/types/user/user.interface";
+import { UserInfo } from "@/types/user/user.interface";
+
 import { ShieldCheck } from "lucide-react";
 
-export const AdminColumn: columns<IUser>[] = [
+export const AdminColumn: columns<UserInfo>[] = [
   {
     header: "Admin",
     accessor: (admin) => (
@@ -73,5 +74,5 @@ export const AdminColumn: columns<IUser>[] = [
       </span>
     ),
   },
-  
+
 ];

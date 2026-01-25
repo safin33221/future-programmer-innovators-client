@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { formatDateTime, getInitials } from "@/lib/formatters";
-import { IUser } from "@/types/user/user.interface";
+import { UserInfo } from "@/types/user/user.interface";
 import {
   Calendar,
   Mail,
@@ -23,7 +23,7 @@ import {
 interface IMentorViewDialogProps {
   open: boolean;
   onClose: () => void;
-  mentor: IUser | null;
+  mentor: UserInfo | null;
 }
 
 const MentorViewDialog = ({
@@ -151,13 +151,13 @@ const MentorViewDialog = ({
                 Contact Information
               </h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-muted/50 p-4 rounded-lg">
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-muted/50 p-4 rounded-lg">
                 <InfoRow label="Email Address" value={mentor.email} />
                 <InfoRow
                   label="Phone Number"
                   value={mentor.phone || "Not provided"}
                 />
-              </div>
+              </div> */}
             </div>
 
             <Separator />

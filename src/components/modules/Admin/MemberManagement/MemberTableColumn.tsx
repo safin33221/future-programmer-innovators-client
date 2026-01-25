@@ -1,9 +1,9 @@
 import { DateCell } from "@/components/shared/cell/DateCell";
 import { columns } from "@/components/shared/ManagementTable";
-import { IUser } from "@/types/user/user.interface";
+import { UserInfo } from "@/types/user/user.interface";
 
 
-export const MemberColumn: columns<IUser>[] = [
+export const MemberColumn: columns<UserInfo>[] = [
   {
     header: "Name",
     accessor: (member) => (
@@ -42,12 +42,12 @@ export const MemberColumn: columns<IUser>[] = [
     accessor: (member) => (
       <span
         className={`inline-flex items-center justify-center rounded-full px-2 py-0.5 text-xs font-medium
-          ${member.isActive 
+          ${member.isActive
             ? "bg-emerald-100 text-emerald-700"
             : "bg-red-100 text-red-700"
           }`}
       >
-        {member.isActive ? "Active":"InActive"}
+        {member.isActive ? "Active" : "InActive"}
       </span>
     ),
     className: "text-center",

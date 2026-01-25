@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { formatDateTime, getInitials } from "@/lib/formatters";
-import { IUser } from "@/types/user/user.interface";
+import { UserInfo } from "@/types/user/user.interface";
 import {
     Calendar,
     Mail,
@@ -23,7 +23,7 @@ import {
 interface IAdminViewDetailDialogProps {
     open: boolean;
     onClose: () => void;
-    admin: IUser | null;
+    admin: UserInfo | null;
 }
 
 const AdminViewDetailDialog = ({
@@ -44,7 +44,7 @@ const AdminViewDetailDialog = ({
                     {/* Profile Header */}
                     <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-muted/40 rounded-lg mb-6">
                         <Avatar className="h-24 w-24 border shadow">
-                            <AvatarImage src={admin.profilePhoto} />
+                            <AvatarImage src={admin?.admin?.profileImage} />
                             <AvatarFallback className="text-2xl">
                                 {getInitials(
                                     `${admin.firstName} ${admin.lastName}`
@@ -126,10 +126,10 @@ const AdminViewDetailDialog = ({
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-muted/50 p-4 rounded-lg">
                                 <InfoRow label="Email Address" value={admin.email} />
-                                <InfoRow
+                                {/* <InfoRow
                                     label="Phone Number"
-                                    value={admin.phone || "Not provided"}
-                                />
+                                    value={admin.admin. || "Not provided"}
+                                /> */}
                             </div>
                         </div>
 

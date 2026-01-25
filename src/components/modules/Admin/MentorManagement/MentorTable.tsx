@@ -2,23 +2,23 @@
 
 import { useState } from "react";
 import ManagementTable from "@/components/shared/ManagementTable";
-import { IUser } from "@/types/user/user.interface";
+import { UserInfo } from "@/types/user/user.interface";
 
 import MentorViewDialog from "./MentorViewDialog";
 import { MentorColumn } from "./MentorTableColumn";
 
 interface MentorTableProps {
-    users: IUser[];
+    users: UserInfo[];
 }
 
 export default function MentorTable({ users }: MentorTableProps) {
-    const [viewingMentor, setViewingMentor] = useState<IUser | null>(null);
+    const [viewingMentor, setViewingMentor] = useState<UserInfo | null>(null);
 
-    const handleView = (user: IUser) => {
+    const handleView = (user: UserInfo) => {
         setViewingMentor(user);
     };
 
-    const handleDelete = (user: IUser) => {
+    const handleDelete = (user: UserInfo) => {
         // TODO: delete mentor logic
         console.log("Delete mentor:", user.id);
     };

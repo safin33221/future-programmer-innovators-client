@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import ApplicationFrom from "@/components/modules/membershipApplication/ApplicationFrom";
 import { getAllDepartments } from "@/services/Admin/department/department";
 import { getAllSessions } from "@/services/Admin/session/session";

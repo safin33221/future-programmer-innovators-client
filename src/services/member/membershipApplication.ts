@@ -14,11 +14,11 @@ export async function submitMembershipApplication(
             lastName: formData.get("lastName") as string,
             email: formData.get("email") as string,
             studentId: formData.get("studentId") as string,
-            program: formData.get("program") as string,
-            session: formData.get("session") as string,
+            departmentId: formData.get("departmentId") as string,
+            sessionId: formData.get("sessionId") as string,
             motivation: formData.get("joinMotivation") as string,
             userId: formData.get("userId") as string,
-            role: formData.get("role") as string,
+
 
             // ✅ IMPORTANT: multiple checkbox values
             interests: formData.getAll("interests") as string[],

@@ -1,25 +1,24 @@
-
-
 import ApplicationFrom from "@/components/modules/membershipApplication/ApplicationFrom";
+import { getAllDepartments } from "@/services/Admin/department/department";
+import { getAllSessions } from "@/services/Admin/session/session";
 import { getUserInfo } from "@/services/auth/getUser";
 import { UserInfo } from "@/types/user/user.interface";
 import { redirect } from "next/navigation";
 
-
 export default async function MembershipApplication() {
-
-    const userInfo = await getUserInfo()
-
-
+    const userInfo = await getUserInfo();
+    const departmentsRes = await getAllDepartments();
+    const sessionsRes = await getAllSessions();
 
     if (!userInfo || userInfo.role !== "GUEST") {
-        redirect("/")
+        redirect("/");
     }
+
+    const departments = departmentsRes.data;
+    const sessions = sessionsRes.data;
 
     return (
         <div className="container py-20 px-4 md:px-6 max-w-4xl mx-auto">
-
-            {/* Header */}
             <div className="text-center space-y-4 mb-16">
                 <h1 className="text-4xl font-bold tracking-tight">
                     Membership Application
@@ -29,10 +28,11 @@ export default async function MembershipApplication() {
                 </p>
             </div>
 
-            {/* Form Card */}
-            <ApplicationFrom userInfo={userInfo as UserInfo} />
-
-
+            <ApplicationFrom
+                userInfo={userInfo as UserInfo}
+                departments={departments}
+                sessions={sessions}
+            />
         </div>
     );
 }

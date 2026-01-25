@@ -1,12 +1,12 @@
 "use client";
 
 import { UserInfo } from "@/types/user/user.interface";
+import { IDepartment } from "@/types/department/department.interface";
+import { ISession } from "@/types/Session/session.intrface";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-    CardContent, CardFooter
-} from "@/components/ui/card";
+import { CardContent, CardFooter } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import {
     Select,
@@ -17,17 +17,22 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+
 import { useActionState, useEffect } from "react";
 import { submitMembershipApplication } from "@/services/member/membershipApplication";
 import toast from "react-hot-toast";
 
 interface ApplicationFormProps {
-    userInfo: UserInfo
+    userInfo: UserInfo;
+    departments: IDepartment[];
+    sessions: ISession[];
 }
 
-const ApplicationFrom = ({ userInfo }: ApplicationFormProps) => {
-
-
+const ApplicationFrom = ({
+    userInfo,
+    departments,
+    sessions,
+}: ApplicationFormProps) => {
     const [state, formAction, isPending] = useActionState(
         submitMembershipApplication,
         null
@@ -45,8 +50,6 @@ const ApplicationFrom = ({ userInfo }: ApplicationFormProps) => {
             toast.error(state.message || "Something went wrong");
         }
     }, [state]);
-
-    console.log(state);
 
     return (
         <form action={formAction}>
@@ -78,7 +81,6 @@ const ApplicationFrom = ({ userInfo }: ApplicationFormProps) => {
                         <FieldLabel>Email</FieldLabel>
                         <Input
                             name="email"
-
                             defaultValue={userInfo.email}
                             readOnly
                         />
@@ -96,34 +98,38 @@ const ApplicationFrom = ({ userInfo }: ApplicationFormProps) => {
                         />
                     </Field>
 
-                    {/* Program + Session */}
+                    {/* Department + Session */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        {/* Department */}
                         <Field>
-                            <FieldLabel>Program / Branch</FieldLabel>
-                            <Select name="program" required>
+                            <FieldLabel>Department</FieldLabel>
+                            <Select name="departmentId" required>
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select Program" />
+                                    <SelectValue placeholder="Select Department" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="cs">Computer Science</SelectItem>
-                                    <SelectItem value="it">Information Technology</SelectItem>
-                                    <SelectItem value="ec">Electronics</SelectItem>
-                                    <SelectItem value="other">Other</SelectItem>
+                                    {departments.map((dept) => (
+                                        <SelectItem key={dept.id} value={dept.id}>
+                                            {dept.name}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </Field>
 
+                        {/* Session */}
                         <Field>
                             <FieldLabel>Session</FieldLabel>
-                            <Select name="session" required>
+                            <Select name="sessionId" required>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select Session" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="2023-2024">2023-2024</SelectItem>
-                                    <SelectItem value="2024-2025">2024-2025</SelectItem>
-                                    <SelectItem value="2025-2026">2025-2026</SelectItem>
-                                    <SelectItem value="2026-2027">2026-2027</SelectItem>
+                                    {sessions.map((session) => (
+                                        <SelectItem key={session.id} value={session.id}>
+                                            {session.name}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </Field>
@@ -158,7 +164,7 @@ const ApplicationFrom = ({ userInfo }: ApplicationFormProps) => {
                             name="joinMotivation"
                             placeholder="Tell us your motivation..."
                             required
-                            className="min-h-30"
+                            className="min-h-32"
                         />
                     </Field>
 
@@ -173,14 +179,6 @@ const ApplicationFrom = ({ userInfo }: ApplicationFormProps) => {
 
                 {/* Hidden */}
                 <input type="hidden" name="userId" value={userInfo.id} />
-                <input type="hidden" name="role" value={userInfo.role} />
-
-                {/* {state?.success === false && (
-                    <p className="text-sm text-destructive">{state.message}</p>
-                )}
-                {state?.success === true && (
-                    <p className="text-sm text-green-600">{state.message}</p>
-                )} */}
             </CardContent>
 
             <CardFooter>

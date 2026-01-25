@@ -2,23 +2,24 @@
 
 import { useState } from "react";
 import ManagementTable from "@/components/shared/ManagementTable";
-import { IUser } from "@/types/user/user.interface";
+
 import { AdminColumn } from "./AdminTableColumn";
 import AdminViewDetailDialog from "./AdminViewDialog";
+import { UserInfo } from "@/types/user/user.interface";
 
 interface AdminTableProps {
-    users: IUser[];
+    users: UserInfo[];
 }
 
 export default function AdminTable({ users }: AdminTableProps) {
-    const [viewingAdmin, setViewingAdmin] = useState<IUser | null>(null);
-    console.log(users);
+    const [viewingAdmin, setViewingAdmin] = useState<UserInfo | null>(null);
 
-    const handleView = (user: IUser) => {
+
+    const handleView = (user: UserInfo) => {
         setViewingAdmin(user);
     };
 
-    const handleDelete = (user: IUser) => {
+    const handleDelete = (user: UserInfo) => {
         // TODO: delete admin logic
         console.log("Delete admin:", user.id);
     };

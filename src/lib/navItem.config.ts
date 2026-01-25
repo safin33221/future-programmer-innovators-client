@@ -73,8 +73,8 @@ export const adminNavItem: INavSection[] = [
         title: "Academic Management",
         items: [
             {
-                title: "Courses",
-                href: "/admin/dashboard/course-management",
+                title: "Learning Track",
+                href: "/admin/dashboard/learning-track-management",
                 icon: "BookOpen",
                 role: ["ADMIN"],
             },

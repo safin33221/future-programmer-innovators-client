@@ -36,7 +36,7 @@ export default function GuestTable({ users }: GuestTableProps) {
 
         setIsDeletingDialog(true);
         const result = await softDelete(deleting.id as string);
-        console.log(result);
+
 
         setIsDeletingDialog(false);
         if (result.success) {

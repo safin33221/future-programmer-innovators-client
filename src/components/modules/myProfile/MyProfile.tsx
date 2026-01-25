@@ -19,7 +19,6 @@ import { UserInfo } from "@/types/user/user.interface";
 // import { updateMyProfile } from "@/services/auth/auth.service";
 // import { UserInfo } from "@/types/user.interface";
 import { Camera, Loader2, Save } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
 interface MyProfileProps {
@@ -27,16 +26,16 @@ interface MyProfileProps {
 }
 
 const MyProfile = ({ userInfo }: MyProfileProps) => {
-    const router = useRouter();
-    console.log(userInfo);
+
+
     const [isPending, startTransition] = useTransition();
     const [previewImage, setPreviewImage] = useState<string | null>(null);
 
     const profile =
         userInfo.admin ||
         userInfo.member ||
-        userInfo.mentor ||
-        userInfo.moderator;
+        userInfo.mentor
+
 
     const profileImage = profile?.profileImage;
 
@@ -54,15 +53,15 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const formData = new FormData(e.currentTarget);
+        // const formData = new FormData(e.currentTarget);
 
-        startTransition(async () => {
-            // const res = await updateMyProfile(formData);
-            // if (res.success) {
-            //     setPreviewImage(null);
-            //     router.refresh();
-            // }
-        });
+        // startTransition(async () => {
+        //     // const res = await updateMyProfile(formData);
+        //     // if (res.success) {
+        //     //     setPreviewImage(null);
+        //     //     router.refresh();
+        //     // }
+        // });
     };
 
     return (

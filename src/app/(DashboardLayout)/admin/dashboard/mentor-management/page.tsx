@@ -7,7 +7,7 @@ import { UserRole } from "@/types/user/user.interface";
 export default async function page() {
     const res = await getAllUser({ role: UserRole.MENTOR });
     const allUsers = res.data.data
-    console.log(allUsers);
+
 
     return (
         <div>

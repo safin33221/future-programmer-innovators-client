@@ -43,8 +43,7 @@ export default function VerifyEmail() {
             return;
         }
 
-        console.log("OTP:", code);
-        // TODO: call verify-otp API
+
     };
 
     return (

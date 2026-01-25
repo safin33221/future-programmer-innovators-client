@@ -7,7 +7,7 @@ import { getAllNoticesForAdmin } from "@/services/notice/notice.service";
 export default async function page() {
     const res = await getAllNoticesForAdmin();
     const notices = res.data.data
-    console.log(notices);
+
 
     return (
         <div>

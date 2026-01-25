@@ -43,7 +43,7 @@ export default function ManagementTable<T>(
 ) {
 
     const hasAction = onEdit || onView || onDelete
-    console.log("mnagement table", data);
+
     return (
 
 
@@ -85,7 +85,7 @@ export default function ManagementTable<T>(
                         data.map((item) => (
 
 
-                            <TableRow  key={getRowKey(item)}>
+                            <TableRow key={getRowKey(item)}>
                                 {columns.map((col, idx) => (
                                     <TableCell key={idx} className={col.className}>
                                         {typeof col.accessor === "function"

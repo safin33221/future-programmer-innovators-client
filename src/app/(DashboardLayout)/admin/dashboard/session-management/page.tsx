@@ -7,7 +7,7 @@ import { getAllSessions } from "@/services/Admin/session/session";
 
 export default async function page() {
     const res = await getAllSessions();
-    console.log(res);
+
     const sessions = res.data;
 
     return (

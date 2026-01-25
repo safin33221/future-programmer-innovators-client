@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -25,43 +26,74 @@ type Step = "EMAIL" | "OTP" | "REGISTER";
 const OTP_TIMEOUT = 120;
 
 export default function RegisterFlow() {
-    const [sendState, sendAction, sendPending] = useActionState(sendOtp, null);
-    const [otpState, otpAction, otpPending] = useActionState(verifyOtp, null);
-    const [regState, regAction, regPending] = useActionState(register, null);
-
+    // State management
     const [step, setStep] = useState<Step>("EMAIL");
     const [email, setEmail] = useState("");
     const [verifiedToken, setVerifiedToken] = useState("");
     const [secondsLeft, setSecondsLeft] = useState(0);
 
-    /* ================= TOAST + STEP FLOW ================= */
+    // Action states with callbacks
+    const [_sendState, sendAction, sendPending] = useActionState(
+        async (prevState: any, formData: FormData) => {
+            const result = await sendOtp(prevState, formData);
 
-    useEffect(() => {
-        if (sendState?.success) {
-            toast.success("OTP sent to your email");
-            setEmail(sendState.email);
-            setSecondsLeft(OTP_TIMEOUT);
-            setStep("OTP");
-        }
-        if (sendState?.error) toast.error(sendState.error);
-    }, [sendState]);
+            // Handle success synchronously
+            if (result?.success) {
+                const email = formData.get("email") as string;
+                setEmail(email);
+                setSecondsLeft(OTP_TIMEOUT);
+                setStep("OTP");
+                toast.success("OTP sent to your email");
+            }
 
-    useEffect(() => {
-        if (otpState?.success) {
-            toast.success("Email verified successfully");
-            setVerifiedToken(otpState.verifiedToken);
-            setStep("REGISTER");
-        }
-        if (otpState?.error) toast.error(otpState.error);
-    }, [otpState]);
+            if (result?.error) {
+                toast.error(result.error);
+            }
 
-    useEffect(() => {
-        if (regState?.success) toast.success("Account created successfully");
-        if (regState?.message) toast.error(regState.message);
-    }, [regState]);
+            return result;
+        },
+        null
+    );
+
+    const [_otpState, otpAction, otpPending] = useActionState(
+        async (prevState: any, formData: FormData) => {
+            const result = await verifyOtp(prevState, formData);
+
+            // Handle success synchronously
+            if (result?.success) {
+                setVerifiedToken(result.verifiedToken);
+                setStep("REGISTER");
+                toast.success("Email verified successfully");
+            }
+
+            if (result?.error) {
+                toast.error(result.error);
+            }
+
+            return result;
+        },
+        null
+    );
+
+    const [_regState, regAction, regPending] = useActionState(
+        async (prevState: any, formData: FormData) => {
+            const result = await register(prevState, formData);
+
+            if (result?.success) {
+                toast.success("Account created successfully");
+                // Redirect or do something else
+            }
+
+            if (result?.message && !result.success) {
+                toast.error(result.message);
+            }
+
+            return result;
+        },
+        null
+    );
 
     /* ================= TIMER ================= */
-
     useEffect(() => {
         if (secondsLeft <= 0) return;
         const t = setInterval(() => setSecondsLeft((p) => p - 1), 1000);
@@ -69,9 +101,7 @@ export default function RegisterFlow() {
     }, [secondsLeft]);
 
     /* ================= HELPERS ================= */
-
     const stepIndex = step === "EMAIL" ? 1 : step === "OTP" ? 2 : 3;
-
     const minutes = Math.floor(secondsLeft / 60);
     const seconds = secondsLeft % 60;
 
@@ -79,6 +109,12 @@ export default function RegisterFlow() {
         setStep("EMAIL");
         setEmail("");
         setSecondsLeft(0);
+    };
+
+    const handleResendOtp = async () => {
+        const formData = new FormData();
+        formData.append("email", email);
+        await sendAction(formData);
     };
 
     return (
@@ -105,14 +141,13 @@ export default function RegisterFlow() {
                                     {i !== 3 && (
                                         <div
                                             className={`flex-1 h-1 mx-2 rounded
-            ${stepIndex > i ? "bg-primary" : "bg-muted"}`}
+                                                ${stepIndex > i ? "bg-primary" : "bg-muted"}`}
                                         />
                                     )}
                                 </div>
                             ))}
                         </div>
                     </div>
-
 
                     <div className="text-center space-y-1">
                         <CardTitle className="text-2xl">
@@ -122,7 +157,7 @@ export default function RegisterFlow() {
                         </CardTitle>
 
                         <CardDescription>
-                            {step === "EMAIL" && "We’ll send a 6-digit code"}
+                            {step === "EMAIL" && "We'll send a 6-digit code"}
                             {step === "OTP" && `Code sent to ${email}`}
                             {step === "REGISTER" && "Finish setting up your account"}
                         </CardDescription>
@@ -135,10 +170,17 @@ export default function RegisterFlow() {
                         <form action={sendAction} className="space-y-4">
                             <Field>
                                 <FieldLabel>Email</FieldLabel>
-                                <Input name="email" type="email" placeholder="Enter Your Email" required />
+                                <Input
+                                    name="email"
+                                    type="email"
+                                    placeholder="Enter Your Email"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
                             </Field>
 
-                            <Button disabled={sendPending} className="w-full">
+                            <Button type="submit" disabled={sendPending} className="w-full">
                                 {sendPending ? "Sending..." : "Send OTP"}
                             </Button>
                         </form>
@@ -155,7 +197,7 @@ export default function RegisterFlow() {
                                     <Input name="otp" placeholder="enter your OTP" required />
                                 </Field>
 
-                                <Button disabled={otpPending} className="w-full">
+                                <Button type="submit" disabled={otpPending} className="w-full">
                                     {otpPending ? "Verifying..." : "Verify OTP"}
                                 </Button>
                             </form>
@@ -177,12 +219,16 @@ export default function RegisterFlow() {
                             </div>
 
                             {secondsLeft <= 0 && (
-                                <form action={sendAction} className="text-center">
-                                    <input type="hidden" name="email" value={email} />
-                                    <Button variant="link" className="p-0">
-                                        Resend OTP
+                                <div className="text-center">
+                                    <Button
+                                        variant="link"
+                                        className="p-0"
+                                        onClick={handleResendOtp}
+                                        disabled={sendPending}
+                                    >
+                                        {sendPending ? "Resending..." : "Resend OTP"}
                                     </Button>
-                                </form>
+                                </div>
                             )}
                         </>
                     )}
@@ -220,7 +266,7 @@ export default function RegisterFlow() {
                                 </Field>
                             </FieldGroup>
 
-                            <Button disabled={regPending} className="w-full">
+                            <Button type="submit" disabled={regPending} className="w-full">
                                 {regPending ? "Creating..." : "Create Account"}
                             </Button>
                         </form>

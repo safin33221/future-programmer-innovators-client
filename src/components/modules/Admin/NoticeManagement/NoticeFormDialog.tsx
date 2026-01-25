@@ -1,6 +1,5 @@
 "use client";
 
-import InputFieldError from "@/components/shared/InputFieldError";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -39,7 +38,6 @@ const NoticeFormDialog = ({
     );
     const prevStateRef = useRef(state);
 
-    console.log(state);
 
     // ✅ define BEFORE useEffect
     const handleClose = useCallback(() => {

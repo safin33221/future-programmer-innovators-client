@@ -23,7 +23,7 @@ export async function submitMembershipApplication(
             // ✅ IMPORTANT: multiple checkbox values
             interests: formData.getAll("interests") as string[],
         };
-        console.log(payload);
+
 
 
         const res = await serverFetch.post("/member/create-member-application", {

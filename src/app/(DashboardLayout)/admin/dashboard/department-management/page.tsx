@@ -6,7 +6,7 @@ import { getAllDepartments } from "@/services/Admin/department/department";
 export default async function page() {
     const res = await getAllDepartments();
     const departments = res.data
-    console.log(res);
+
 
     return (
         <div>

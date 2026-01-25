@@ -30,7 +30,7 @@ export default function DepartmentTable({ departments }: DepartmentTableProps) {
 
         setIsDeletingDialog(true);
         const result = await softDeleteDepartment(deleting.id as string);
-        console.log(result);
+
 
         setIsDeletingDialog(false);
         if (result.success) {

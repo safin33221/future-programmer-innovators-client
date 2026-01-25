@@ -8,7 +8,7 @@ interface InputFieldErrorProps {
 }
 
 const InputFieldError = ({ field, state }: InputFieldErrorProps) => {
-    console.log({ field, state });
+
     if (getInputFieldError(field, state)) {
         return (
             <FieldDescription className="text-red-600">

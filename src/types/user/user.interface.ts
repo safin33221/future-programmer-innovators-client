@@ -64,7 +64,7 @@ export interface IAdmin {
   userId: string;
 
   adminLevel: AdminLevel;
-  profileImage?: string;
+  profileImage: string;
 }
 
 /* =========================
@@ -79,7 +79,7 @@ export interface IMember {
   departmentId: string;
   sessionId: string;
 
-  profileImage?: string;
+  profileImage: string;
 }
 
 /* =========================
@@ -98,7 +98,7 @@ export interface IMentor {
   linkedin?: string;
   portfolio?: string;
 
-  profileImage?: string;
+  profileImage: string;
 }
 
 /* =========================

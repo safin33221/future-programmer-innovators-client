@@ -25,7 +25,7 @@ export default function DashboardNavbarContent({
     // dashboardHome,
 }: DashboardNavbarContentProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+    // const [isNotificationOpen, setIsNotificationOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {

@@ -99,7 +99,7 @@ export interface ILearningTrack {
     difficulty: TrackLevel;
     duration: string;
     isActive?: boolean;
-
+    isDeleted: boolean;
     topics?: ITrackTopic[];
     roadmaps?: ITrackRoadmap[];
     careers?: ITrackCareer[];

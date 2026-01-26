@@ -56,9 +56,6 @@ export interface LearningTrack {
    Create Learning Track (Admin)
 ========================= */
 
-
-
-
 export const createLearningTrack = async (
     _prevState: IInputErrorState | null,
     formData: FormData
@@ -79,6 +76,14 @@ export const createLearningTrack = async (
             careers: [],
             tools: [],
         };
+
+        /* =========================
+           OPTIONAL ICON FIELD
+        ========================= */
+        const icon = formData.get("icon");
+        if (icon) {
+            payload.icon = icon as string;
+        }
 
         /* =========================
            TOPICS
@@ -122,13 +127,18 @@ export const createLearningTrack = async (
         ========================= */
         i = 0;
         while (formData.get(`tools[${i}].name`)) {
-            payload.tools.push({
+            const toolPayload: { name: string; icon?: string } = {
                 name: formData.get(`tools[${i}].name`) as string,
-            });
+            };
+
+            const toolIcon = formData.get(`tools[${i}].icon`);
+            if (toolIcon) {
+                toolPayload.icon = toolIcon as string;
+            }
+
+            payload.tools.push(toolPayload);
             i++;
         }
-
-
 
         /* =========================
            API CALL 
@@ -142,7 +152,7 @@ export const createLearningTrack = async (
             const error = await res.json();
             return {
                 success: false,
-                message: error.message,
+                message: error.message || "Failed to create learning track",
                 errors: error.errors,
                 formData: payload,
             };
@@ -152,58 +162,68 @@ export const createLearningTrack = async (
             success: true,
             message: "Learning track created successfully",
         };
-    } catch (error) {
-        console.error(error);
+    } catch (error: any) {
+        console.error("Create learning track error:", error);
         return {
             success: false,
-            message: "Something went wrong",
+            message: error.message || "Something went wrong",
         };
     }
 };
 
-
 /* =========================
    Get All Learning Tracks (Public)
 ========================= */
-export const getAllLearningTracks = async () => {
-    const res = await serverFetch.get("/learning-tracks");
+export const getAllLearningTracks = async (): Promise<LearningTrack[]> => {
+    try {
+        const res = await serverFetch.get("/learning-tracks");
 
-    if (!res.ok) {
-        throw new Error("Failed to fetch learning tracks");
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}: Failed to fetch learning tracks`);
+        }
+
+        return await res.json();
+    } catch (error: any) {
+        console.error("Get all learning tracks error:", error);
+        throw new Error(error.message || "Failed to fetch learning tracks");
     }
-
-    return res.json();
 };
 
 /* =========================
    Get All Learning Tracks (Admin)
 ========================= */
-export const getAllLearningTracksForAdmin = async () => {
+export const getAllLearningTracksForAdmin = async (): Promise<LearningTrack[] | null> => {
     try {
         const res = await serverFetch.get("/learning-tracks");
 
-        if (!res.ok) {
-            throw new Error("Failed to fetch learning tracks for admin");
-        }
-
         const result = await res.json();
-        return result
-    } catch (error) {
-        console.log(error);
+
+        if (!result.success) {
+            throw new Error(`HTTP ${result.message}: Failed to fetch learning tracks for admin`);
+        }
+        return result.data
+    } catch (error: any) {
+        console.error("Get all learning tracks for admin error:", error);
+        return null;
     }
 };
 
 /* =========================
    Get Single Learning Track
 ========================= */
-export const getLearningTrackBySlug = async (slug: string) => {
-    const res = await serverFetch.get(`/learning-tracks/${slug}`);
+export const getLearningTrackBySlug = async (slug: string): Promise<LearningTrack> => {
+    try {
+        const res = await serverFetch.get(`/learning-tracks/${slug}`);
 
-    if (!res.ok) {
-        throw new Error("Failed to fetch learning track");
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}: Failed to fetch learning track`);
+        }
+
+        return await res.json();
+    } catch (error: any) {
+        console.error(`Get learning track by slug error (${slug}):`, error);
+        throw new Error(error.message || "Failed to fetch learning track");
     }
-
-    return res.json();
 };
 
 /* =========================
@@ -212,32 +232,43 @@ export const getLearningTrackBySlug = async (slug: string) => {
 export const updateLearningTrack = async (
     id: string,
     payload: Partial<CreateLearningTrackPayload>
-) => {
-    const res = await serverFetch.patch(`/learning-tracks/${id}`, {
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-    });
+): Promise<LearningTrack> => {
+    try {
+        const res = await serverFetch.patch(`/learning-tracks/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
 
-    if (!res.ok) {
-        throw new Error("Failed to update learning track");
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}: Failed to update learning track`);
+        }
+
+        return await res.json();
+    } catch (error: any) {
+        console.error(`Update learning track error (${id}):`, error);
+        throw new Error(error.message || "Failed to update learning track");
     }
-
-    return res.json();
 };
 
 /* =========================
    Soft Delete Learning Track
 ========================= */
-export const deleteLearningTrack = async (id: string) => {
-    const res = await serverFetch.delete(`/learning-tracks/${id}`);
+export const softDeleteLearningTrack = async (id: string): Promise<{ success: boolean; message: string }> => {
+    try {
+        const res = await serverFetch.patch(`/learning-tracks/soft-delete/${id}`);
+        const result = await res.json()
 
-    if (!res.ok) {
-        throw new Error("Failed to delete learning track");
+        if (!result.success) {
+            throw new Error(`${result.message}: Failed to delete learning track`);
+        }
+
+        return result
+    } catch (error: any) {
+        console.error(`Delete learning track error (${id}):`, error);
+        throw new Error(error.message || "Failed to delete learning track");
     }
-
-    return res.json();
 };
 
 /* =========================
@@ -246,17 +277,22 @@ export const deleteLearningTrack = async (id: string) => {
 export const toggleLearningTrackStatus = async (
     id: string,
     isActive: boolean
-) => {
-    const res = await serverFetch.patch(
-        `/learning-tracks/${id}/status`,
-        {
+): Promise<LearningTrack> => {
+    try {
+        const res = await serverFetch.patch(`/learning-tracks/${id}/status`, {
+            headers: {
+                "Content-Type": "application/json",
+            },
             body: JSON.stringify({ isActive }),
+        });
+
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}: Failed to update learning track status`);
         }
-    );
 
-    if (!res.ok) {
-        throw new Error("Failed to update learning track status");
+        return await res.json();
+    } catch (error: any) {
+        console.error(`Toggle learning track status error (${id}):`, error);
+        throw new Error(error.message || "Failed to update learning track status");
     }
-
-    return res.json();
 };

@@ -2,10 +2,12 @@ import LearningTrackManagementHeader from "@/components/modules/Admin/LearningTr
 import LearningTrackTable from "@/components/modules/Admin/LearningTrackManagement/LearningTrackTable";
 
 import { getAllLearningTracksForAdmin } from "@/services/Admin/learningTrack/learningTrack";
+import { ILearningTrack } from "@/types/learningTrack/learningTrack.interface";
 
 export default async function page() {
     const res = await getAllLearningTracksForAdmin();
-    const tracks = res.data.data;
+    const tracks = res?.data as ILearningTrack[] || [];
+
 
 
 

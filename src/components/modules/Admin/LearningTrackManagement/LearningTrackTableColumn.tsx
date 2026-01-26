@@ -44,8 +44,23 @@ export const LearningTrackColumn: columns<ILearningTrack>[] = [
         ),
     },
 
+    // {
+    //     header: "Status",
+    //     accessor: (track) => (
+    //         <span
+    //             className={`inline-flex items-center justify-center rounded-full px-2 py-0.5 text-xs font-medium
+    //             ${track.isActive
+    //                     ? "bg-emerald-100 text-emerald-700"
+    //                     : "bg-gray-200 text-gray-700"
+    //                 }`}
+    //         >
+    //             {track.isActive ? "Active" : "Inactive"}
+    //         </span>
+    //     ),
+    //     className: "text-center",
+    // },
     {
-        header: "Status",
+        header: "is Deleted",
         accessor: (track) => (
             <span
                 className={`inline-flex items-center justify-center rounded-full px-2 py-0.5 text-xs font-medium
@@ -54,7 +69,7 @@ export const LearningTrackColumn: columns<ILearningTrack>[] = [
                         : "bg-gray-200 text-gray-700"
                     }`}
             >
-                {track.isActive ? "Active" : "Inactive"}
+                {track.isDeleted ? "Deleted" : "Active"}
             </span>
         ),
         className: "text-center",

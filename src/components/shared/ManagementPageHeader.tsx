@@ -19,7 +19,7 @@ export default function ManagementPageHeader({
     children
 }: ManagementPageHeaderProps) {
 
-    const Icon: LucideIcon = action!.icon || null
+    const Icon = action?.icon || null
     return (
         <div className="flex items-center justify-between">
             <div>
@@ -30,7 +30,7 @@ export default function ManagementPageHeader({
             </div>
             {action && (
                 <Button onClick={action.onClick}>
-                    <Icon className="mr-2 h-4 w-4" />
+                    {Icon && <Icon className="mr-2 h-4 w-4" />}
                     {action.label}
                 </Button>
             )}

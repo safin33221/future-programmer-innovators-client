@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import ManagementTable from "@/components/shared/ManagementTable";
 import { DepartmentColumn, } from "./DepartmentTableColumn";
 import DepartmentViewDialog from "./DepartmentViewDialog";
@@ -8,16 +8,25 @@ import { IDepartment } from "@/types/department/department.interface";
 import toast from "react-hot-toast";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 import { softDeleteDepartment } from "@/services/Admin/department/department";
+import { useRouter } from "next/navigation";
 
 interface DepartmentTableProps {
     departments: IDepartment[];
 }
 
 export default function DepartmentTable({ departments }: DepartmentTableProps) {
+    const router = useRouter();
+    const [, startTransition] = useTransition();
     const [viewingDepartment, setViewingDepartment] = useState<IDepartment | null>(null);
     const [deleting, setDeleting] = useState<IDepartment | null>(null);
 
     const [isDeletingDialog, setIsDeletingDialog] = useState(false);
+
+    const handleRefresh = () => {
+        startTransition(() => {
+            router.refresh();
+        });
+    };
     const handleView = (department: IDepartment) => {
         setViewingDepartment(department);
     };
@@ -36,7 +45,7 @@ export default function DepartmentTable({ departments }: DepartmentTableProps) {
         if (result.success) {
             toast.success(result.message || "User deleted successfully");
             setDeleting(null);
-            // handleRefresh();
+            handleRefresh();
         } else {
             toast.error(result.message || "Failed to delete User");
         }

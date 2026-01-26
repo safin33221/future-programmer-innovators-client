@@ -56,6 +56,12 @@ export const adminNavItem: INavSection[] = [
                 role: ["ADMIN"],
             },
             {
+                title: "MemberShip Application",
+                href: "/admin/dashboard/membership-application",
+                icon: "Users",
+                role: ["ADMIN"],
+            },
+            {
                 title: "Mentors",
                 href: "/admin/dashboard/mentor-management",
                 icon: "UserCheck",

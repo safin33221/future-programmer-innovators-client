@@ -56,3 +56,97 @@ export async function submitMembershipApplication(
         };
     }
 }
+
+
+
+
+/* ===============================
+   ADMIN → Get All Applications
+================================ */
+export async function getMemberApplications() {
+    try {
+        const res = await serverFetch.get("/member/applications", {
+            credentials: "include",
+        });
+
+        const result = await res.json();
+
+        if (!res.ok || !result.success) {
+            throw new Error(result.message || "Failed to fetch applications");
+        }
+
+        return {
+            success: true,
+            data: result.data,
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message || "Something went wrong",
+        };
+    }
+}
+
+/* ===============================
+   ADMIN → Approve Application
+================================ */
+export async function approveMemberApplication(applicationId: string) {
+    try {
+        const res = await serverFetch.patch(
+            `/member/applications/approve/${applicationId}`,
+            {
+                credentials: "include",
+            }
+        );
+
+        const result = await res.json();
+
+        if (!res.ok || !result.success) {
+            throw new Error(result.message || "Approval failed");
+        }
+
+        revalidatePath("/admin/member-applications");
+
+        return {
+            success: true,
+            message: "Application approved successfully",
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message || "Something went wrong",
+        };
+    }
+}
+
+/* ===============================
+   ADMIN → Reject Application
+================================ */
+export async function rejectMemberApplication(applicationId: string) {
+    try {
+        const res = await serverFetch.patch(
+            `/member/applications/reject/${applicationId}`,
+            {
+                credentials: "include",
+            }
+        );
+
+        const result = await res.json();
+
+        if (!res.ok || !result.success) {
+            throw new Error(result.message || "Rejection failed");
+        }
+
+        revalidatePath("/admin/member-applications");
+
+        return {
+            success: true,
+            message: "Application rejected successfully",
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.message || "Something went wrong",
+        };
+    }
+}

@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 interface ManagementPageHeaderProps {
     title: string;
     description?: string;
-    action: {
+    action?: {
         icon: LucideIcon;
         label: string;
         onClick: () => void
@@ -19,7 +19,7 @@ export default function ManagementPageHeader({
     children
 }: ManagementPageHeaderProps) {
 
-    const Icon = action.icon || null
+    const Icon: LucideIcon = action!.icon || null
     return (
         <div className="flex items-center justify-between">
             <div>

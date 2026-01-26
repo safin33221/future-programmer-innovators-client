@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useActionState } from "react";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,7 @@ import {
     CardDescription,
 } from "@/components/ui/card";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import Link from "next/link";
+import { Loader2 } from "lucide-react";
 
 import { register } from "@/services/auth/register";
 import { sendOtp, verifyOtp } from "@/services/otp/otp";
@@ -24,124 +25,154 @@ import { sendOtp, verifyOtp } from "@/services/otp/otp";
 type Step = "EMAIL" | "OTP" | "REGISTER";
 
 const OTP_TIMEOUT = 120;
+const OTP_LENGTH = 6;
 
 export default function RegisterFlow() {
-    // State management
     const [step, setStep] = useState<Step>("EMAIL");
     const [email, setEmail] = useState("");
     const [verifiedToken, setVerifiedToken] = useState("");
     const [secondsLeft, setSecondsLeft] = useState(0);
+    const [isResending, setIsResending] = useState(false);
 
-    // Action states with callbacks
-    const [_sendState, sendAction, sendPending] = useActionState(
-        async (prevState: any, formData: FormData) => {
-            const result = await sendOtp(prevState, formData);
+    const [otp, setOtp] = useState<string[]>(
+        Array(OTP_LENGTH).fill("")
+    );
+    const inputsRef = useRef<HTMLInputElement[]>([]);
 
-            // Handle success synchronously
-            if (result?.success) {
-                const email = formData.get("email") as string;
-                setEmail(email);
+    /* ================= OTP INPUT ================= */
+
+    const handleChange = (value: string, index: number) => {
+        if (!/^\d?$/.test(value)) return;
+
+        const next = [...otp];
+        next[index] = value;
+        setOtp(next);
+
+        if (value && index < OTP_LENGTH - 1) {
+            inputsRef.current[index + 1]?.focus();
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+        if (e.key === "Backspace" && !otp[index] && index > 0) {
+            inputsRef.current[index - 1]?.focus();
+        }
+    };
+
+    /* ================= ACTIONS ================= */
+
+    const [, sendAction, sendPending] = useActionState(
+        async (_: any, formData: FormData) => {
+            const res = await sendOtp(_, formData);
+
+            if (res?.success) {
+                setEmail(formData.get("email") as string);
+                setOtp(Array(OTP_LENGTH).fill(""));
                 setSecondsLeft(OTP_TIMEOUT);
                 setStep("OTP");
-                toast.success("OTP sent to your email");
+                toast.success("OTP sent");
             }
 
-            if (result?.error) {
-                toast.error(result.error);
-            }
-
-            return result;
+            if (res?.error) toast.error(res.error);
+            return res;
         },
         null
     );
 
-    const [_otpState, otpAction, otpPending] = useActionState(
-        async (prevState: any, formData: FormData) => {
-            const result = await verifyOtp(prevState, formData);
+    const [, otpAction, otpPending] = useActionState(
+        async (_: any, formData: FormData) => {
+            const res = await verifyOtp(_, formData);
 
-            // Handle success synchronously
-            if (result?.success) {
-                setVerifiedToken(result.verifiedToken);
+            if (res?.success) {
+                setVerifiedToken(res.verifiedToken);
                 setStep("REGISTER");
-                toast.success("Email verified successfully");
+                toast.success("Email verified");
             }
 
-            if (result?.error) {
-                toast.error(result.error);
-            }
-
-            return result;
+            if (res?.error) toast.error(res.error);
+            return res;
         },
         null
     );
 
-    const [_regState, regAction, regPending] = useActionState(
-        async (prevState: any, formData: FormData) => {
-            const result = await register(prevState, formData);
+    const [, regAction, regPending] = useActionState(
+        async (_: any, formData: FormData) => {
+            const res = await register(_, formData);
 
-            if (result?.success) {
-                toast.success("Account created successfully");
-                // Redirect or do something else
-            }
+            if (res?.success) toast.success("Account created");
+            if (!res?.success) toast.error(res?.message);
 
-            if (result?.message && !result.success) {
-                toast.error(result.message);
-            }
-
-            return result;
+            return res;
         },
         null
     );
 
     /* ================= TIMER ================= */
+
     useEffect(() => {
         if (secondsLeft <= 0) return;
-        const t = setInterval(() => setSecondsLeft((p) => p - 1), 1000);
-        return () => clearInterval(t);
+
+        const timer = setInterval(() => {
+            setSecondsLeft((s) => s - 1);
+        }, 1000);
+
+        return () => clearInterval(timer);
     }, [secondsLeft]);
 
-    /* ================= HELPERS ================= */
-    const stepIndex = step === "EMAIL" ? 1 : step === "OTP" ? 2 : 3;
-    const minutes = Math.floor(secondsLeft / 60);
-    const seconds = secondsLeft % 60;
-
-    const handleChangeEmail = () => {
-        setStep("EMAIL");
-        setEmail("");
-        setSecondsLeft(0);
-    };
+    /* ================= RESEND ================= */
 
     const handleResendOtp = async () => {
-        const formData = new FormData();
-        formData.append("email", email);
-        await sendAction(formData);
+        setIsResending(true);
+        try {
+            const fd = new FormData();
+            fd.append("email", email);
+
+            const res = await sendOtp(null, fd);
+
+            if (res?.success) {
+                setSecondsLeft(OTP_TIMEOUT);
+                setOtp(Array(OTP_LENGTH).fill(""));
+                toast.success("OTP resent");
+            }
+
+            if (res?.error) toast.error(res.error);
+        } finally {
+            setIsResending(false);
+        }
     };
+
+    /* ================= DERIVED ================= */
+
+    const stepIndex = step === "EMAIL" ? 1 : step === "OTP" ? 2 : 3;
+    const isOtpComplete = otp.every(Boolean);
+
+    /* ================= UI ================= */
 
     return (
         <div className="flex items-center justify-center px-6 py-12">
             <Card className="w-full max-w-md">
                 <CardHeader className="space-y-4">
-                    {/* ================= PROGRESS ================= */}
-                    <div className="w-full flex justify-center mb-4">
-                        <div className="flex items-center w-full max-w-xs">
+                    {/* PROGRESS (CENTERED) */}
+                    <div className="flex justify-center">
+                        <div className="flex w-full max-w-xs">
                             {[1, 2, 3].map((i) => (
-                                <div key={i} className="flex items-center flex-1">
-                                    {/* Circle */}
+                                <div key={i} className="flex flex-1 items-center">
                                     <div
-                                        className={`h-8 w-8 rounded-full flex items-center justify-center text-sm font-medium shrink-0
-                                            ${stepIndex >= i
+                                        className={`h-8 w-8 rounded-full flex items-center justify-center text-sm font-medium
+                                        ${stepIndex >= i
                                                 ? "bg-primary text-white"
                                                 : "bg-muted text-muted-foreground"
                                             }`}
                                     >
                                         {i}
                                     </div>
-
-                                    {/* Line */}
                                     {i !== 3 && (
                                         <div
                                             className={`flex-1 h-1 mx-2 rounded
-                                                ${stepIndex > i ? "bg-primary" : "bg-muted"}`}
+                                            ${stepIndex > i
+                                                    ? "bg-primary"
+                                                    : "bg-muted"
+                                                }`}
                                         />
                                     )}
                                 </div>
@@ -149,23 +180,22 @@ export default function RegisterFlow() {
                         </div>
                     </div>
 
-                    <div className="text-center space-y-1">
-                        <CardTitle className="text-2xl">
+                    <div className="text-center">
+                        <CardTitle>
                             {step === "EMAIL" && "Verify your email"}
                             {step === "OTP" && "Enter verification code"}
                             {step === "REGISTER" && "Create your account"}
                         </CardTitle>
-
-                        <CardDescription>
-                            {step === "EMAIL" && "We'll send a 6-digit code"}
-                            {step === "OTP" && `Code sent to ${email}`}
-                            {step === "REGISTER" && "Finish setting up your account"}
-                        </CardDescription>
+                        {step === "OTP" && (
+                            <CardDescription>
+                                Code sent to {email}
+                            </CardDescription>
+                        )}
                     </div>
                 </CardHeader>
 
                 <CardContent className="space-y-4">
-                    {/* STEP 1 */}
+                    {/* EMAIL STEP */}
                     {step === "EMAIL" && (
                         <form action={sendAction} className="space-y-4">
                             <Field>
@@ -173,67 +203,78 @@ export default function RegisterFlow() {
                                 <Input
                                     name="email"
                                     type="email"
-                                    placeholder="Enter Your Email"
-                                    required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
+                                    required
                                 />
                             </Field>
 
-                            <Button type="submit" disabled={sendPending} className="w-full">
+                            <Button className="w-full" disabled={sendPending}>
                                 {sendPending ? "Sending..." : "Send OTP"}
                             </Button>
                         </form>
                     )}
 
-                    {/* STEP 2 */}
+                    {/* OTP STEP */}
                     {step === "OTP" && (
-                        <>
-                            <form action={otpAction} className="space-y-4">
-                                <input type="hidden" name="email" value={email} />
+                        <form action={otpAction} className="space-y-4">
+                            <input type="hidden" name="email" value={email} />
+                            <input type="hidden" name="otp" value={otp.join("")} />
 
-                                <Field>
-                                    <FieldLabel>OTP</FieldLabel>
-                                    <Input name="otp" placeholder="enter your OTP" required />
-                                </Field>
-
-                                <Button type="submit" disabled={otpPending} className="w-full">
-                                    {otpPending ? "Verifying..." : "Verify OTP"}
-                                </Button>
-                            </form>
-
-                            <div className="flex justify-between text-sm mt-2">
-                                <Button
-                                    variant="link"
-                                    className="p-0"
-                                    onClick={handleChangeEmail}
-                                >
-                                    Change email
-                                </Button>
-
-                                {secondsLeft > 0 && (
-                                    <span className="text-muted-foreground">
-                                        Resend in {minutes}:{seconds.toString().padStart(2, "0")}
-                                    </span>
-                                )}
+                            <div className="flex justify-center gap-2">
+                                {otp.map((digit, index) => (
+                                    <input
+                                        key={index}
+                                        ref={(el) => {
+                                            if (el) inputsRef.current[index] = el;
+                                        }}
+                                        value={digit}
+                                        maxLength={1}
+                                        onChange={(e) =>
+                                            handleChange(e.target.value, index)
+                                        }
+                                        onKeyDown={(e) =>
+                                            handleKeyDown(e, index)
+                                        }
+                                        className="w-10 h-12 border rounded-md text-center text-lg"
+                                    />
+                                ))}
                             </div>
 
-                            {secondsLeft <= 0 && (
-                                <div className="text-center">
+                            <Button
+                                className="w-full"
+                                disabled={!isOtpComplete || otpPending}
+                            >
+                                Verify OTP
+                            </Button>
+
+                            {/* COUNTDOWN / RESEND */}
+                            <div className="flex flex-col items-center gap-2 min-h-12">
+                                {secondsLeft > 0 ? (
+                                    <p className="text-sm text-muted-foreground">
+                                        Resend available in{" "}
+                                        <span className="font-semibold">
+                                            {secondsLeft}s
+                                        </span>
+                                    </p>
+                                ) : (
                                     <Button
-                                        variant="link"
-                                        className="p-0"
+                                        variant="outline"
+                                        size="sm"
                                         onClick={handleResendOtp}
-                                        disabled={sendPending}
+                                        disabled={isResending}
                                     >
-                                        {sendPending ? "Resending..." : "Resend OTP"}
+                                        {isResending && (
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        )}
+                                        Resend OTP
                                     </Button>
-                                </div>
-                            )}
-                        </>
+                                )}
+                            </div>
+                        </form>
                     )}
 
-                    {/* STEP 3 */}
+                    {/* REGISTER STEP */}
                     {step === "REGISTER" && (
                         <form action={regAction} className="space-y-4">
                             <input
@@ -248,7 +289,6 @@ export default function RegisterFlow() {
                                         <FieldLabel>First Name</FieldLabel>
                                         <Input name="firstName" required />
                                     </Field>
-
                                     <Field>
                                         <FieldLabel>Last Name</FieldLabel>
                                         <Input name="lastName" />
@@ -256,26 +296,28 @@ export default function RegisterFlow() {
                                 </div>
 
                                 <Field>
-                                    <FieldLabel>Email</FieldLabel>
-                                    <Input name="email" value={email} readOnly />
-                                </Field>
-
-                                <Field>
                                     <FieldLabel>Password</FieldLabel>
-                                    <Input type="password" name="password" required />
+                                    <Input
+                                        type="password"
+                                        name="password"
+                                        required
+                                    />
                                 </Field>
                             </FieldGroup>
 
-                            <Button type="submit" disabled={regPending} className="w-full">
-                                {regPending ? "Creating..." : "Create Account"}
+                            <Button className="w-full" disabled={regPending}>
+                                Create Account
                             </Button>
                         </form>
                     )}
                 </CardContent>
 
-                <CardFooter className="justify-center text-sm text-muted-foreground">
+                <CardFooter className="justify-center text-sm">
                     Already have an account?
-                    <Link href="/login" className="ml-1 text-primary hover:underline">
+                    <Link
+                        href="/login"
+                        className="ml-1 text-primary underline"
+                    >
                         Sign in
                     </Link>
                 </CardFooter>

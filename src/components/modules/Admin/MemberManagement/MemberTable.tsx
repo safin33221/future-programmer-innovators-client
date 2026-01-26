@@ -9,8 +9,10 @@ import { MemberColumn } from "./MemberTableColumn";
 import { UserInfo } from "@/types/user/user.interface";
 
 
+
 interface MemberTableProps {
     users: UserInfo[];
+
 }
 
 export default function MemberTable({ users }: MemberTableProps) {
@@ -27,6 +29,7 @@ export default function MemberTable({ users }: MemberTableProps) {
 
     return (
         <div className="overflow-x-auto rounded-lg border">
+
             <ManagementTable
                 data={users}
                 columns={MemberColumn}

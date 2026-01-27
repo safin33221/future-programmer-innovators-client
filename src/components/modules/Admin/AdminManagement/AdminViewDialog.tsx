@@ -44,7 +44,7 @@ const AdminViewDetailDialog = ({
                     {/* Profile Header */}
                     <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-muted/40 rounded-lg mb-6">
                         <Avatar className="h-24 w-24 border shadow">
-                            <AvatarImage src={admin?.admin?.profileImage} />
+                            <AvatarImage src={admin?.profileImage} />
                             <AvatarFallback className="text-2xl">
                                 {getInitials(
                                     `${admin.firstName} ${admin.lastName}`

@@ -6,13 +6,14 @@ import { SheetTitle } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { INavSection } from "@/types/dashboard/dashboard.interface";
-import { IUserInfo } from "@/types/user/user.interface";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/common/Logo";
+import { UserInfo } from "@/types/user/user.interface";
 
 interface DashboardMobileSidebarContentProps {
-    userInfo: IUserInfo;
+    userInfo: UserInfo;
     navItems?: INavSection[];
     setIsSidebarOpen: (open: boolean) => void
 
@@ -92,13 +93,13 @@ export default function DashboardMobileSideBar({
                 <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
                         <span className="text-sm font-semibold text-primary">
-                            {userInfo?.name?.charAt(0).toUpperCase()}
+                            {userInfo?.firstName?.charAt(0).toUpperCase()}
                         </span>
                     </div>
 
                     <div className="flex-1 overflow-hidden">
                         <p className="text-sm font-medium truncate">
-                            {userInfo.name}
+                            {userInfo.firstName} {userInfo?.lastName}
                         </p>
                         <p className="text-xs text-muted-foreground capitalize">
                             {userInfo?.role?.toLowerCase()}

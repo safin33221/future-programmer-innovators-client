@@ -1,6 +1,6 @@
 "use client";
 
-import { IUserInfo } from "@/types/user/user.interface";
+
 import {
     Sheet,
     SheetContent,
@@ -12,9 +12,10 @@ import { UserDropdown } from "./UserDropdown";
 import DashboardMobileSideBar from "./DashboardMobileSideBar";
 import { INavSection } from "@/types/dashboard/dashboard.interface";
 import { Logo } from "@/components/common/Logo";
+import { UserInfo } from "@/types/user/user.interface";
 
 interface DashboardNavbarContentProps {
-    userInfo: IUserInfo;
+    userInfo: UserInfo;
     navItems: INavSection[];
     dashboardHome?: string;
 }

@@ -4,12 +4,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { INavSection } from "@/types/dashboard/dashboard.interface";
-import { IUserInfo } from "@/types/user/user.interface";
+import { UserInfo } from "@/types/user/user.interface";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 interface DashboardContentProps {
     navItems: INavSection[],
-    userInfo: IUserInfo
+    userInfo: UserInfo
 }
 export default function DashboardSidebarContent({ navItems, userInfo }: DashboardContentProps) {
     const pathname = usePathname();
@@ -64,7 +64,7 @@ export default function DashboardSidebarContent({ navItems, userInfo }: Dashboar
                         {userInfo.email?.charAt(0).toUpperCase()}
                     </div>
                     <div>
-                        <p className="text-sm font-medium">{userInfo.name}</p>
+                        <p className="text-sm font-medium">{userInfo.firstName}</p>
                         <p className="text-xs capitalize">{userInfo.role}</p>
                     </div>
                 </div>

@@ -1,25 +1,10 @@
-/* =========================
-   USER ROLES
-========================= */
-
 export enum UserRole {
   GUEST = "GUEST",
   ADMIN = "ADMIN",
+  MODERATOR = "MODERATOR",
   MEMBER = "MEMBER",
   MENTOR = "MENTOR",
-  MODERATOR = "MODERATOR",
 }
-
-/* =========================
-   BASIC USER INFO
-========================= */
-
-export interface IUserInfo {
-  name?: string;
-  email: string;
-  role: string;
-}
-
 /* =========================
    MAIN USER INTERFACE
 ========================= */
@@ -30,6 +15,11 @@ export interface UserInfo {
   firstName: string;
   lastName: string;
   email: string;
+
+  // Add these common fields to UserInfo
+  phone?: string;
+  bio?: string;
+  profileImage?: string; // Moved from role-specific interfaces
 
   role: UserRole;
 
@@ -64,7 +54,7 @@ export interface IAdmin {
   userId: string;
 
   adminLevel: AdminLevel;
-  profileImage: string;
+  // REMOVE profileImage from here
 }
 
 /* =========================
@@ -79,7 +69,13 @@ export interface IMember {
   departmentId: string;
   sessionId: string;
 
-  profileImage: string;
+  // Add these fields for Member
+  batch?: string;
+  skills?: string[];
+  github?: string;
+  linkedin?: string;
+
+  // REMOVE profileImage from here
 }
 
 /* =========================
@@ -93,30 +89,52 @@ export interface IMentor {
   expertise: string;
   designation: string;
   experience: string;
+  company?: string;
 
   github?: string;
   linkedin?: string;
   portfolio?: string;
 
-  profileImage: string;
+  // REMOVE profileImage from here
 }
 
 /* =========================
    MODERATOR
 ========================= */
+export enum ModeratorPermissionType {
+  // Content Moderation
+  VIEW_CONTENT = "VIEW_CONTENT",
+  APPROVE_CONTENT = "APPROVE_CONTENT",
+  EDIT_CONTENT = "EDIT_CONTENT",
+  DELETE_CONTENT = "DELETE_CONTENT",
+
+  // User Management
+  VIEW_USERS = "VIEW_USERS",
+  WARN_USERS = "WARN_USERS",
+  SUSPEND_USERS = "SUSPEND_USERS",
+
+  // Forum Moderation
+  MANAGE_FORUMS = "MANAGE_FORUMS",
+  MANAGE_THREADS = "MANAGE_THREADS",
+  MANAGE_COMMENTS = "MANAGE_COMMENTS",
+
+  // System
+  VIEW_REPORTS = "VIEW_REPORTS",
+  MANAGE_REPORTS = "MANAGE_REPORTS",
+}
+
+export interface IModeratorPermission {
+  id: string;
+  name: string;
+  type: ModeratorPermissionType;
+  description: string;
+  category: "CONTENT" | "USER" | "FORUM" | "SYSTEM";
+}
 
 export interface IModerator {
   id: string;
   userId: string;
 
   permissions: IModeratorPermission[];
-}
-
-/* =========================
-   MODERATOR PERMISSIONS
-========================= */
-
-export interface IModeratorPermission {
-  permissionId: string;
-  name: string;
+  moderationLevel?: string;
 }

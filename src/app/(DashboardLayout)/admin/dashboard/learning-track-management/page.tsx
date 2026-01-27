@@ -6,7 +6,8 @@ import { ILearningTrack } from "@/types/learningTrack/learningTrack.interface";
 
 export default async function page() {
     const res = await getAllLearningTracksForAdmin();
-    const tracks = res?.data as ILearningTrack[] || [];
+    console.log(res);
+    const tracks = res?.data.data as ILearningTrack[] || [];
 
 
 

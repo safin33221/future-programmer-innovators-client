@@ -192,7 +192,7 @@ export const getAllLearningTracks = async (): Promise<LearningTrack[]> => {
 /* =========================
    Get All Learning Tracks (Admin)
 ========================= */
-export const getAllLearningTracksForAdmin = async (): Promise<LearningTrack[] | null> => {
+export const getAllLearningTracksForAdmin = async (): Promise<any> => {
     try {
         const res = await serverFetch.get("/learning-tracks");
 
@@ -201,10 +201,10 @@ export const getAllLearningTracksForAdmin = async (): Promise<LearningTrack[] | 
         if (!result.success) {
             throw new Error(`HTTP ${result.message}: Failed to fetch learning tracks for admin`);
         }
-        return result.data
+        return result
     } catch (error: any) {
         console.error("Get all learning tracks for admin error:", error);
-        return null;
+        return null
     }
 };
 

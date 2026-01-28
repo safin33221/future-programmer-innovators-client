@@ -39,7 +39,7 @@ export default function LoginForm() {
       </CardHeader>
 
       <CardContent className="space-y-5">
-        <form action={formAction} className="space-y-5">
+        <form action={formAction} className="space-y-5" dir="ltr">
           <FieldGroup>
             {/* Email */}
             <Field>
@@ -47,9 +47,10 @@ export default function LoginForm() {
               <Input
                 id="email"
                 name="email"
-                type="email"
+                type=""
                 placeholder="m@example.com"
                 required
+                style={{ direction: 'ltr', textAlign: 'left' }} // Double protection
               />
             </Field>
 
@@ -70,6 +71,7 @@ export default function LoginForm() {
                 name="password"
                 type="password"
                 required
+                placeholder="**********"
               />
             </Field>
           </FieldGroup>

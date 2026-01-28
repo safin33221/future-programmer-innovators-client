@@ -2,7 +2,7 @@
 
 import { serverFetch } from "@/lib/serverFetch";
 
-type GetAllUserParams = {
+export type GetAllUserParams = {
     searchTerm?: string;
     role?: string;
     page?: number;
@@ -11,23 +11,28 @@ type GetAllUserParams = {
     sortOrder?: "asc" | "desc";
 };
 
-export const getAllUser = async (params?: GetAllUserParams) => {
+export const getAllUser = async (queryString?: string) => {
     try {
-        const query = new URLSearchParams();
 
-        if (params?.searchTerm) query.append("searchTerm", params.searchTerm);
-        if (params?.role) query.append("role", params.role);
-        if (params?.page) query.append("page", params.page.toString());
-        if (params?.limit) query.append("limit", params.limit.toString());
-        if (params?.sortBy) query.append("sortBy", params.sortBy);
-        if (params?.sortOrder) query.append("sortOrder", params.sortOrder);
 
-        const url = query.toString()
-            ? `/user?${query.toString()}`
-            : "/user";
+        const searchParams = new URLSearchParams(queryString);
+        const page = searchParams.get("page") || "1";
+        const searchTerm = searchParams.get("searchTerm") || "all";
 
-        const res = await serverFetch.get(url);
+        console.log({ searchParams });
+
+        const res = await serverFetch.get(`/user?${queryString ? queryString : ""}`, {
+            next: {
+                tags: [
+                    "admins-list",
+                    `admins-page-${page}`,
+                    `admins-search-${searchTerm}`,
+                ],
+                revalidate: 180
+            }
+        });
         const result = await res.json();
+
 
         return result;
     } catch (error) {
@@ -49,7 +54,7 @@ export const getMe = async () => {
 
 export const softDelete = async (id: string) => {
     try {
-        const res = await serverFetch.patch(`/user/soft-delete/${id}`);
+        const res = await serverFetch.patch(`/ user / soft - delete/${id}`);
         return await res.json();
     } catch (error) {
         console.error("Soft delete user error:", error);

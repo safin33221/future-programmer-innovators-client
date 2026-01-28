@@ -13,33 +13,32 @@ export type GetAllUserParams = {
 
 export const getAllUser = async (queryString?: string) => {
     try {
-
-
         const searchParams = new URLSearchParams(queryString);
+
         const page = searchParams.get("page") || "1";
         const searchTerm = searchParams.get("searchTerm") || "all";
 
-        console.log({ searchParams });
-
-        const res = await serverFetch.get(`/user?${queryString ? queryString : ""}`, {
-            next: {
-                tags: [
-                    "admins-list",
-                    `admins-page-${page}`,
-                    `admins-search-${searchTerm}`,
-                ],
-                revalidate: 180
+        const res = await serverFetch.get(
+            `/user?${queryString ?? ""}`,
+            {
+                next: {
+                    tags: [
+                        "admins-list",
+                        `admins-page-${page}`,
+                        `admins-search-${searchTerm}`,
+                    ],
+                    revalidate: 180,
+                },
             }
-        });
-        const result = await res.json();
+        );
 
-
-        return result;
+        return await res.json();
     } catch (error) {
         console.error("Get users error:", error);
         throw error;
     }
 };
+
 
 export const getMe = async () => {
     try {

@@ -11,7 +11,7 @@ export default async function Page({
 }) {
   const searchParamsObj = await searchParams;
   const queryString = queryStringFormatter(searchParamsObj);
-  const adminsResult = await getAllUser(queryString);
+  const users = await getAllUser(queryString);
 
 
 
@@ -28,7 +28,7 @@ export default async function Page({
 
       {/* Table */}
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
-        <AdminTable users={adminsResult?.data?.data} />
+        <AdminTable users={users?.data?.data} />
       </div>
     </div >
   );

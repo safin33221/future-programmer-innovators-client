@@ -3,6 +3,7 @@ import AdminManagementHeader from "@/components/modules/Admin/AdminManagement/Ad
 import AdminTable from "@/components/modules/Admin/AdminManagement/AdminTable";
 import { queryStringFormatter } from "@/lib/formatters";
 import { getAllUser } from "@/services/user/user";
+import { UserRole } from "@/types/user/user.interface";
 
 export default async function Page({
   searchParams,
@@ -10,8 +11,13 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const searchParamsObj = await searchParams;
-  const queryString = queryStringFormatter(searchParamsObj);
-  const users = await getAllUser(queryString);
+  const finalParams = {
+    ...searchParamsObj,
+    role: UserRole.ADMIN,
+  };
+  const queryString = queryStringFormatter(finalParams);
+  const res = await getAllUser(queryString);
+  const allUser = res.data.data
 
 
 
@@ -28,7 +34,7 @@ export default async function Page({
 
       {/* Table */}
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
-        <AdminTable users={users?.data?.data} />
+        <AdminTable users={allUser} />
       </div>
     </div >
   );

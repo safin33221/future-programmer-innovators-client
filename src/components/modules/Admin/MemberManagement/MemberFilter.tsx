@@ -5,11 +5,11 @@ import RefreshButton from "@/components/shared/RefreshButton";
 import SearchFilter from "@/components/shared/SearchFilter";
 
 
-const AdminsFilter = () => {
+const MemberFilter = () => {
 
 
     return (
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-4 bg-white rounded-lg border border-gray-200">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-4 my-4 bg-white rounded-lg border border-gray-200">
             {/* Search - Takes priority space */}
             <div className="flex-1 min-w-0">
                 <SearchFilter
@@ -45,4 +45,4 @@ const AdminsFilter = () => {
     );
 };
 
-export default AdminsFilter;
+export default MemberFilter;

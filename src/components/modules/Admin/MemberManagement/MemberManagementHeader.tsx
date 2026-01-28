@@ -3,8 +3,7 @@
 
 import ManagementPageHeader from "@/components/shared/ManagementPageHeader";
 
-const AdminManagementHeader = () => {
-
+const MemberManagementHeader = () => {
 
 
 
@@ -15,8 +14,8 @@ const AdminManagementHeader = () => {
 
 
             <ManagementPageHeader
-                title="Admin Management"
-                description="Create, update, and manage system administrators"
+                title="Member Management"
+                description="update and manage system Member"
 
 
             />
@@ -24,4 +23,4 @@ const AdminManagementHeader = () => {
     );
 };
 
-export default AdminManagementHeader;
+export default MemberManagementHeader;

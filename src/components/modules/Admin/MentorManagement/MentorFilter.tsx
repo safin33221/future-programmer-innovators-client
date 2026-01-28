@@ -5,7 +5,7 @@ import RefreshButton from "@/components/shared/RefreshButton";
 import SearchFilter from "@/components/shared/SearchFilter";
 
 
-const AdminsFilter = () => {
+const MentorFilter = () => {
 
 
     return (
@@ -45,4 +45,4 @@ const AdminsFilter = () => {
     );
 };
 
-export default AdminsFilter;
+export default MentorFilter;

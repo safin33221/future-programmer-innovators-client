@@ -21,8 +21,9 @@ export async function submitMembershipApplication(
 
 
             // ✅ IMPORTANT: multiple checkbox values
-            interests: formData.getAll("interests") as string[],
+            interests: formData.get("interests") as string,
         };
+        console.log({ payload });
 
 
 

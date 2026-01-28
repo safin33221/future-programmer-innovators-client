@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 
 import { Logo } from "@/components/common/Logo";
 import RegisterForm from "@/components/modules/auth/RegisterForm";
+import RegisterFormS from "@/components/modules/auth/RegisterFormS";
 
 export default function Register() {
     return (
@@ -31,7 +32,8 @@ export default function Register() {
             </div>
 
             {/* Right Side Register Form */}
-            <RegisterForm />
+            {/* <RegisterForm /> */}
+            <RegisterFormS />
         </div>
     );
 }

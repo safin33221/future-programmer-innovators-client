@@ -9,6 +9,7 @@ import { getDefaultDashboardRoute } from "@/lib/auth-utils";
 export default async function NavbarWrapper() {
     const accessToken = await getCookies("accessToken");
     const userInfo = await getUserInfo() as UserInfo
+    console.log({ userInfo });
     const defaultDashboardRoute = getDefaultDashboardRoute(userInfo?.role as UserRole)
 
     return <Navbar isAuthenticated={!!accessToken} defaultDashboardRoute={defaultDashboardRoute} />;

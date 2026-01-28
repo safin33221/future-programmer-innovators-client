@@ -39,7 +39,30 @@ export interface UserInfo {
   member?: IMember;
   mentor?: IMentor;
   moderator?: IModerator;
+  memberShipApplication?: IMembershipApplication;
 }
+
+export interface IMembershipApplication {
+  id: string;
+  userId: string;
+
+  studentId: string;
+  departmentId: string;
+  sessionId: string;
+  learningTrackId: string | null;
+
+  profileImage: string | null;
+  interestedAreas: string[];
+
+  status: "PENDING" | "APPROVED" | "REJECTED";
+
+  joinMotivation?: string | null;
+
+  createdAt: string;
+  updatedAt: string;
+  reviewComment?: string
+}
+
 
 /* =========================
    ADMIN

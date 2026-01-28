@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 import ApplicationFrom from "@/components/modules/membershipApplication/ApplicationFrom";
 import { getAllDepartments } from "@/services/Admin/department/department";
+import { getAllLearningTracksForAdmin } from "@/services/Admin/learningTrack/learningTrack";
 import { getAllSessions } from "@/services/Admin/session/session";
 import { getUserInfo } from "@/services/auth/getUser";
 import { UserInfo } from "@/types/user/user.interface";
@@ -10,13 +11,15 @@ export default async function MembershipApplication() {
     const userInfo = await getUserInfo();
     const departmentsRes = await getAllDepartments();
     const sessionsRes = await getAllSessions();
-
+    const learningStack = await getAllLearningTracksForAdmin()
     if (!userInfo || userInfo.role !== "GUEST") {
         redirect("/");
     }
 
     const departments = departmentsRes.data;
     const sessions = sessionsRes.data;
+    const learningStackData = learningStack.data.data || []
+
 
     return (
         <div className="container py-20 px-4 md:px-6 max-w-4xl mx-auto">
@@ -33,6 +36,7 @@ export default async function MembershipApplication() {
                 userInfo={userInfo as UserInfo}
                 departments={departments}
                 sessions={sessions}
+                learningStack={learningStackData}
             />
         </div>
     );

@@ -52,7 +52,7 @@ export async function createUserByRole(
                 };
         }
 
-        console.log({ payload });
+
         /* ---------- API CALL ---------- */
         const res = await serverFetch.post(
             "/user/create-role-base-user",

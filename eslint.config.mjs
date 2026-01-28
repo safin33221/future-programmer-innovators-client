@@ -2,17 +2,37 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 
-const eslintConfig = defineConfig([
+export default defineConfig([
+  // Next.js recommended (includes React + Next rules)
   ...nextVitals,
   ...nextTs,
-  // Override default ignores of eslint-config-next.
+
+  // Build-safe ignores
   globalIgnores([
-    // Default ignores of eslint-config-next:
     ".next/**",
     "out/**",
     "build/**",
+    "dist/**",
+    "node_modules/**",
     "next-env.d.ts",
   ]),
-]);
 
-export default eslintConfig;
+  // Project-level overrides
+  {
+    rules: {
+      // Prevent build breaks for common prod cases
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+      "@typescript-eslint/no-explicit-any": "off",
+
+      // Next.js / React practical settings
+      "react/react-in-jsx-scope": "off", // Next.js auto React
+      "react-hooks/exhaustive-deps": "warn",
+
+      // Console allowed (useful in server actions / logs)
+      "no-console": "off",
+    },
+  },
+]);

@@ -22,8 +22,8 @@ export default async function MembershipApplication() {
 
 
     return (
-        <div className="container py-20 px-4 md:px-6 max-w-4xl mx-auto">
-            <div className="text-center space-y-4 mb-16">
+        <div className="container  px-4 md:px-6 max-w-4xl mx-auto border-2 p-8 my-16 rounded-lg shadow-lg">
+            <div className="text-center space-y-4 mb-16 ">
                 <h1 className="text-4xl font-bold tracking-tight">
                     Membership Application
                 </h1>

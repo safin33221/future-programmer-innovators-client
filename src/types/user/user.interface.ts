@@ -47,7 +47,7 @@ export interface IMembershipApplication {
   departmentId: string;
   sessionId: string;
   learningTrackId: string | null;
-
+  phoneNumber: string;
   profileImage: string | null;
   interestedAreas: string[];
 

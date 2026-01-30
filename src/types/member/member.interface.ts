@@ -10,6 +10,7 @@ export interface IMemberApplication {
 
     createdAt: string;
     updatedAt: string;
+    phoneNumber: string;
 
     profileImage?: string | null;
 
@@ -21,6 +22,7 @@ export interface IMemberApplication {
         firstName: string;
         lastName: string;
         email: string;
+        phoneNumber?: string
     };
 
     /* ===============================

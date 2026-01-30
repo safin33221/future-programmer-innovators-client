@@ -160,17 +160,28 @@ const ApplicationFrom = ({
                                     />
                                 </Field>
                             </div>
+                            <div className="grid sm:grid-cols-2 gap-6">
+                                {/* Email */}
+                                <Field>
+                                    <FieldLabel>Email</FieldLabel>
+                                    <Input
+                                        name="email"
+                                        defaultValue={userInfo.email}
+                                        readOnly
+                                    />
+                                </Field>
+                                <Field>
+                                    <FieldLabel>WhatsApp Number</FieldLabel>
+                                    <Input
+                                        name="phoneNumber"
+                                        placeholder="Your Whatsapp Number"
+                                        defaultValue={application?.phoneNumber || ""}
+                                        required
+                                        disabled={isFormDisabled}
 
-                            {/* Email */}
-                            <Field>
-                                <FieldLabel>Email</FieldLabel>
-                                <Input
-                                    name="email"
-                                    defaultValue={userInfo.email}
-                                    readOnly
-                                />
-                            </Field>
-
+                                    />
+                                </Field>
+                            </div>
                             {/* Student ID */}
                             <Field>
                                 <FieldLabel>Student ID</FieldLabel>
@@ -178,6 +189,7 @@ const ApplicationFrom = ({
                                     name="studentId"
                                     defaultValue={application?.studentId ?? ""}
                                     required
+                                    placeholder="Your instituion Board Roll"
                                     disabled={isFormDisabled}
                                 />
                             </Field>

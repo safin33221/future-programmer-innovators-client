@@ -6,14 +6,21 @@ import { getMe } from "@/services/user/user"
 import { UserRole } from "@/types/user/user.interface"
 
 export default async function DashboardNavbar() {
-    const userInfo = (await getMe())
+    const userInfo = await getMe()
     if (!userInfo) {
 
         return null
     }
 
 
-    const navItems: INavSection[] = getNavItemByRole(userInfo.role as UserRole)
-    return <DashboardNavbarContent userInfo={userInfo.data} navItems={navItems} />
+    const navItems: INavSection[] = getNavItemByRole(userInfo.data.role as UserRole)
+    console.log(userInfo);
+
+    return (
+        <div>
+            <DashboardNavbarContent userInfo={userInfo.data} navItems={navItems} />
+
+        </div>
+    )
 
 };

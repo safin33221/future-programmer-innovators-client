@@ -18,6 +18,7 @@ export async function submitMembershipApplication(
             sessionId: formData.get("sessionId") as string,
             motivation: formData.get("joinMotivation") as string,
             userId: formData.get("userId") as string,
+            phoneNumber: formData.get("phoneNumber") as string,
 
 
             // ✅ IMPORTANT: multiple checkbox values

@@ -4,7 +4,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { Camera, Loader2, Save } from "lucide-react";
+import { Camera, Loader2, Save, VerifiedIcon } from "lucide-react";
 
 import {
     Avatar,
@@ -24,6 +24,7 @@ import { Label } from "@/components/ui/label";
 import { getInitials } from "@/lib/formatters";
 import { UserInfo } from "@/types/user/user.interface";
 import { Section } from "@/components/shared/Section";
+import Image from "next/image";
 
 /* ---------------------------------- */
 /* LOCAL UI HELPERS                   */
@@ -64,7 +65,7 @@ interface MyProfileProps {
 }
 
 const MyProfile = ({ userInfo }: MyProfileProps) => {
-
+    console.log({ userInfo });
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -240,8 +241,14 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
                         </div>
 
                         <div className="text-center space-y-1">
-                            <p className="font-medium">
+                            <p className="font-medium flex gap-2">
                                 {userInfo.firstName} {userInfo.lastName}
+                                {userInfo.isVerified && (
+                                    <span className="ml-1 text-blue-500" title="Verified User">
+                                        <VerifiedIcon size={16} />
+
+                                    </span>
+                                )}
                             </p>
                             <p className="text-sm text-muted-foreground">
                                 {userInfo.email}
@@ -273,7 +280,7 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
                                 <InputField
                                     label="Phone"
                                     name="phone"
-                                    value={formData.phone}
+                                    value={formData.phone || ""}
                                     onChange={handleInputChange}
                                 />
                                 <InputField

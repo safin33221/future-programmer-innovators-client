@@ -27,9 +27,11 @@ export default function DashboardMobileSideBar({
     //   dashboardHome,
 }: DashboardMobileSidebarContentProps) {
     const pathname = usePathname();
+    console.log("navItems in mobile sidebar:", navItems);
 
     return (
-        <div className="flex flex-col scroll-auto">
+        <div className="flex h-[100dvh] flex-col">
+
             {/* Logo */}
             <div className="flex h-16 items-center border-b px-6">
                 <Link href={`/`}>
@@ -40,7 +42,8 @@ export default function DashboardMobileSideBar({
             <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
 
             {/* Navigation */}
-            <ScrollArea className="flex-1 px-3 py-4">
+            <ScrollArea className="flex-1 overflow-y-auto px-3 py-4">
+
                 <nav className="space-y-6">
                     {navItems?.map((section, sectionIdx) => (
                         <div key={sectionIdx}>

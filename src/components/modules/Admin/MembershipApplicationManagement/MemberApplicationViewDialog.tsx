@@ -160,6 +160,10 @@ const MemberApplicationViewDialog = ({
                                         label="Student ID"
                                         value={application.studentId}
                                     />
+                                    <InfoRow
+                                        label="Contact Number"
+                                        value={application.user.phoneNumber}
+                                    />
                                 </div>
                             </div>
 

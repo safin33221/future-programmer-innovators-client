@@ -14,7 +14,7 @@ interface DashboardContentProps {
 export default function DashboardSidebarContent({ navItems, userInfo }: DashboardContentProps) {
     const pathname = usePathname();
     return (
-        <div className="max-md:hidden h-screen flex flex-col mt-16">
+        <div className="max-md:hidden  flex flex-col mt-16 h-[calc(100vh-4rem)] ">
 
 
             {/* ONLY SIDEBAR SCROLL */}

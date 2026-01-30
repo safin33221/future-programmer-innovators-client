@@ -16,13 +16,14 @@ import { useRouter } from "next/navigation";
 export function UserDropdown({ userInfo }: { userInfo: UserInfo | null }) {
   const router = useRouter();
 
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-2 p-2 rounded-full hover:bg-gray-100">
           <User className="w-5 h-5 text-gray-600" />
           <span className="text-sm font-medium">
-            {userInfo?.firstName || "User"}
+            {userInfo?.firstName}
           </span>
         </button>
       </DropdownMenuTrigger>
@@ -38,7 +39,7 @@ export function UserDropdown({ userInfo }: { userInfo: UserInfo | null }) {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
-          onClick={() => router.push("/profile")}
+          onClick={() => router.push("/my-profile")}
           className="flex items-center gap-2"
         >
           <User2 className="w-4" />
@@ -56,7 +57,7 @@ export function UserDropdown({ userInfo }: { userInfo: UserInfo | null }) {
         <DropdownMenuSeparator />
 
         {/* Logout */}
-        <DropdownMenuItem className="p-0 w-full ">
+        <DropdownMenuItem className="p-0 w-full block  ">
           <LogoutBtn />
         </DropdownMenuItem>
       </DropdownMenuContent>

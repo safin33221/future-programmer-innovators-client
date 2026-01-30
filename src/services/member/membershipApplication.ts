@@ -123,12 +123,22 @@ export async function approveMemberApplication(applicationId: string) {
 /* ===============================
    ADMIN → Reject Application
 ================================ */
-export async function rejectMemberApplication(applicationId: string) {
+
+export async function rejectMemberApplication(
+    applicationId: string,
+    reviewComment: string
+) {
     try {
         const res = await serverFetch.patch(
             `/member/applications/reject/${applicationId}`,
             {
                 credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    reviewComment,
+                }),
             }
         );
 
@@ -151,3 +161,4 @@ export async function rejectMemberApplication(applicationId: string) {
         };
     }
 }
+

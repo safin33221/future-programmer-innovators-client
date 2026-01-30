@@ -35,10 +35,7 @@ export interface UserInfo {
   createdAt: string;
   updatedAt: string;
 
-  admin?: IAdmin;
-  member?: IMember;
-  mentor?: IMentor;
-  moderator?: IModerator;
+  profile?: IProfile
   memberShipApplication?: IMembershipApplication;
 }
 
@@ -73,42 +70,38 @@ export enum AdminLevel {
   SUPER = "SUPER",
 }
 
-export interface IAdmin {
+interface IProfile {
   id: string;
   userId: string;
 
   adminLevel: AdminLevel;
-  // REMOVE profileImage from here
-}
 
-/* =========================
-   MEMBER
-========================= */
 
-export interface IMember {
-  id: string;
-  userId: string;
+
 
   studentId: string;
   departmentId: string;
   sessionId: string;
 
-  // Add these fields for Member
-  batch?: string;
-  skills?: string[];
-  github?: string;
-  linkedin?: string;
+  batch?: string | null;
+  skills?: string[] | null;
 
-  // REMOVE profileImage from here
-}
 
-/* =========================
-   MENTOR
-========================= */
 
-export interface IMentor {
-  id: string;
-  userId: string;
+  createdAt?: string;
+  updatedAt?: string;
+
+  /* ===== RELATIONS ===== */
+  department?: {
+    id: string;
+    name: string;
+  };
+
+  session?: {
+    id: string;
+    name: string;
+  };
+
 
   expertise: string;
   designation: string;
@@ -119,8 +112,18 @@ export interface IMentor {
   linkedin?: string;
   portfolio?: string;
 
-  // REMOVE profileImage from here
+
+
+  permissions: IModeratorPermission[];
+  moderationLevel?: string
+
+
+
 }
+
+
+
+
 
 /* =========================
    MODERATOR
@@ -155,10 +158,3 @@ export interface IModeratorPermission {
   category: "CONTENT" | "USER" | "FORUM" | "SYSTEM";
 }
 
-export interface IModerator {
-  id: string;
-  userId: string;
-
-  permissions: IModeratorPermission[];
-  moderationLevel?: string;
-}

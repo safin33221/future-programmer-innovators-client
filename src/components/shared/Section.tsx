@@ -1,4 +1,4 @@
-const Section = ({
+export const Section = ({
     title,
     description,
     children,
@@ -14,9 +14,6 @@ const Section = ({
                 <p className="text-sm text-muted-foreground">{description}</p>
             )}
         </div>
-        <div className="rounded-lg border p-4 space-y-4">
-            {children}
-        </div>
+        <div className="rounded-lg border p-4 space-y-4">{children}</div>
     </div>
 );
-export default Section;

@@ -1,25 +1,56 @@
+export type ApplicationStatus = "PENDING" | "APPROVED" | "REJECTED";
 
 export interface IMemberApplication {
+    /* ===============================
+       CORE
+    =============================== */
     id: string;
-    status: "PENDING" | "APPROVED" | "REJECTED";
+    status: ApplicationStatus;
     studentId: string;
+
     createdAt: string;
     updatedAt: string;
-    profileImage?: string
 
+    profileImage?: string | null;
+
+    /* ===============================
+       USER
+    =============================== */
     user: {
+        id?: string;
         firstName: string;
         lastName: string;
         email: string;
     };
 
+    /* ===============================
+       RELATIONS
+    =============================== */
     department?: {
+        id?: string;
         name: string;
     } | null;
 
     session?: {
+        id?: string;
         name: string;
     } | null;
 
-    learningTrackId?: string | null;
+    learningTrack?: {
+        id: string;
+        name: string;
+    } | null;
+
+    /* ===============================
+       APPLICATION DATA
+    =============================== */
+    joinMotivation?: string | null;
+
+    interestedAreas: string[];
+
+    /* ===============================
+       REVIEW DATA
+    =============================== */
+    reviewComment?: string | null;
+    reviewedAt?: string | null;
 }

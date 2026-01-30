@@ -234,20 +234,14 @@ export const guestNavItem: INavSection[] = [
         title: "Explore",
         items: [
             {
-                title: "Courses",
-                href: "/guest/courses",
-                icon: "BookOpen",
-                role: ["GUEST"],
-            },
-            {
                 title: "Events",
-                href: "/guest/events",
+                href: "/guest/dashboard/events",
                 icon: "Megaphone",
                 role: ["GUEST"],
             },
             {
                 title: "Apply for Membership",
-                href: "/guest/apply",
+                href: "/guest/dashboard/apply",
                 icon: "UserPlus",
                 role: ["GUEST"],
             },

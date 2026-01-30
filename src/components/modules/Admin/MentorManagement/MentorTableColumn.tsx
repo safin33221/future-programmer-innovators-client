@@ -30,7 +30,7 @@ export const MentorColumn: columns<UserInfo>[] = [
     header: "Expertise",
     accessor: (mentor) => (
       <span className="text-sm font-medium text-foreground">
-        {mentor?.mentor?.expertise ?? "—"}
+        {mentor?.profile?.expertise ?? "—"}
       </span>
     ),
     className: "text-center",
@@ -40,7 +40,7 @@ export const MentorColumn: columns<UserInfo>[] = [
     header: "Designation",
     accessor: (mentor) => (
       <span className="text-sm text-muted-foreground">
-        {mentor?.mentor?.designation ?? "—"}
+        {mentor?.profile?.designation ?? "—"}
       </span>
     ),
     className: "text-center",

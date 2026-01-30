@@ -92,7 +92,7 @@ export const getDefaultDashboardRoute = (role: UserRole): string => {
         case "MENTOR":
             return "/mentor/dashboard";
         case "GUEST":
-            return "/membership-application";
+            return "/guest/dashboard";
         default:
             return "/login";
     }

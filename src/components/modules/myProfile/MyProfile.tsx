@@ -23,30 +23,13 @@ import { Label } from "@/components/ui/label";
 
 import { getInitials } from "@/lib/formatters";
 import { UserInfo } from "@/types/user/user.interface";
+import { Section } from "@/components/shared/Section";
 
 /* ---------------------------------- */
 /* LOCAL UI HELPERS                   */
 /* ---------------------------------- */
 
-const Section = ({
-    title,
-    description,
-    children,
-}: {
-    title: string;
-    description?: string;
-    children: React.ReactNode;
-}) => (
-    <div className="space-y-4">
-        <div>
-            <h3 className="text-lg font-semibold">{title}</h3>
-            {description && (
-                <p className="text-sm text-muted-foreground">{description}</p>
-            )}
-        </div>
-        <div className="rounded-lg border p-4 space-y-4">{children}</div>
-    </div>
-);
+
 
 const InputField = ({
     label,
@@ -81,6 +64,7 @@ interface MyProfileProps {
 }
 
 const MyProfile = ({ userInfo }: MyProfileProps) => {
+    console.log({ userInfo });
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -93,22 +77,22 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
         bio: userInfo.bio || "",
 
         // member
-        studentId: userInfo.member?.studentId || "",
-        departmentId: userInfo.member?.departmentId || "",
-        sessionId: userInfo.member?.sessionId || "",
-        batch: userInfo.member?.batch || "",
-        skills: userInfo.member?.skills?.join(", ") || "",
+        studentId: userInfo.profile?.studentId || "",
+        departmentId: userInfo.profile?.departmentId || "",
+        sessionId: userInfo.profile?.sessionId || "",
+        batch: userInfo.profile?.batch || "",
+        skills: userInfo.profile?.skills?.join(", ") || "",
 
         // mentor
-        expertise: userInfo.mentor?.expertise || "",
-        designation: userInfo.mentor?.designation || "",
-        company: userInfo.mentor?.company || "",
-        experience: userInfo.mentor?.experience || "",
+        expertise: userInfo.profile?.expertise || "",
+        designation: userInfo.profile?.designation || "",
+        company: userInfo.profile?.company || "",
+        experience: userInfo.profile?.experience || "",
 
         // social
-        github: userInfo.mentor?.github || userInfo.member?.github || "",
-        linkedin: userInfo.mentor?.linkedin || userInfo.member?.linkedin || "",
-        portfolio: userInfo.mentor?.portfolio || "",
+        github: userInfo.profile?.github || userInfo.profile?.github || "",
+        linkedin: userInfo.profile?.linkedin || userInfo.profile?.linkedin || "",
+        portfolio: userInfo.profile?.portfolio || "",
     });
 
     const handleInputChange = (
@@ -311,12 +295,12 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
                         </Section>
 
                         {userInfo.role === "MEMBER" && (
-                            <Section title="Academic Information">
+                            <Section title="Academic Information -(you can't change these)">
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <InputField
                                         label="Student ID"
                                         name="studentId"
-                                        value={formData.studentId}
+                                        value={userInfo.profile?.studentId || ""}
                                         onChange={handleInputChange}
                                         readonly={true}
 
@@ -324,14 +308,14 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
                                     <InputField
                                         label="Department ID"
                                         name="departmentId"
-                                        value={formData.departmentId}
-                                        onChange={handleInputChange}
+                                        value={userInfo.profile?.department?.name || ""}
+                                        readonly={true}
                                     />
                                     <InputField
                                         label="Session"
                                         name="sessionId"
-                                        value={formData.sessionId}
-                                        onChange={handleInputChange}
+                                        value={userInfo.profile?.session?.name}
+                                        readonly={true}
                                     />
                                     <InputField
                                         label="Batch"
@@ -346,6 +330,7 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
                                     name="skills"
                                     value={formData.skills}
                                     onChange={handleInputChange}
+                                    placeholder="e.g., JavaScript, React, Node.js"
                                 />
                             </Section>
                         )}

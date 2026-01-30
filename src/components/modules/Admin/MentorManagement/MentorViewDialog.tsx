@@ -117,27 +117,27 @@ const MentorViewDialog = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-muted/50 p-4 rounded-lg">
                 <InfoRow
                   label="Expertise"
-                  value={mentor.mentor?.expertise || "Not specified"}
+                  value={mentor.profile?.expertise || "Not specified"}
                 />
                 <InfoRow
                   label="Designation"
-                  value={mentor.mentor?.designation || "Not specified"}
+                  value={mentor.profile?.designation || "Not specified"}
                 />
                 <InfoRow
                   label="Experience"
-                  value={mentor.mentor?.experience || "Not specified"}
+                  value={mentor.profile?.experience || "Not specified"}
                 />
                 <InfoRow
                   label="GitHub"
-                  value={mentor.mentor?.github || "Not provided"}
+                  value={mentor.profile?.github || "Not provided"}
                 />
                 <InfoRow
                   label="LinkedIn"
-                  value={mentor.mentor?.linkedin || "Not provided"}
+                  value={mentor.profile?.linkedin || "Not provided"}
                 />
                 <InfoRow
                   label="Portfolio"
-                  value={mentor.mentor?.portfolio || "Not provided"}
+                  value={mentor.profile?.portfolio || "Not provided"}
                 />
               </div>
             </div>

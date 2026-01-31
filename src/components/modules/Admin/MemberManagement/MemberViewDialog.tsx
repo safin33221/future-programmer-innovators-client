@@ -31,6 +31,7 @@ const MemberViewDialog = ({
     member,
 }: IMemberViewDialogProps) => {
     if (!member) return null;
+    console.log("Rendering MemberViewDialog for member:", member);
 
     return (
         <Dialog open={open} onOpenChange={onClose}>
@@ -122,13 +123,35 @@ const MemberViewDialog = ({
                                     label="Email Address"
                                     value={member.email}
                                 />
-                                {/* <InfoRow
+                                <InfoRow
                                     label="Phone Number"
                                     value={member.phone || "Not provided"}
-                                /> */}
+                                />
                             </div>
                         </div>
 
+                        <Separator />
+                        <div>
+                            <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
+                                <Phone className="h-5 w-5 text-purple-600" />
+                                Academy Information
+                            </h3>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-muted/50 p-4 rounded-lg">
+                                <InfoRow
+                                    label="Department Address"
+                                    value={member.profile?.department?.name || "Not provided"}
+                                />
+                                <InfoRow
+                                    label="Session"
+                                    value={member.profile?.session?.name || "Not provided"}
+                                />
+                                <InfoRow
+                                    label="Board Roll Number"
+                                    value={member.profile?.studentId || "Not provided"}
+                                />
+                            </div>
+                        </div>
                         <Separator />
 
                         {/* System Information */}
@@ -146,6 +169,10 @@ const MemberViewDialog = ({
                                 <InfoRow
                                     label="Last Updated"
                                     value={formatDateTime(member.updatedAt)}
+                                />
+                                <InfoRow
+                                    label="last Login "
+                                    value={formatDateTime(member.lastLoginAt)}
                                 />
                             </div>
                         </div>

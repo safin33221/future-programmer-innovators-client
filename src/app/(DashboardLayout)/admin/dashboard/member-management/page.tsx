@@ -18,6 +18,7 @@ export default async function page({
   const queryString = queryStringFormatter(finalParams);
   const res = await getAllUser(queryString);
   const allUser = res.data.data
+  console.log({ allUser });
 
 
   return (

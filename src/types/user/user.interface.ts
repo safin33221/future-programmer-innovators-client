@@ -28,12 +28,13 @@ export interface UserInfo {
   isActive: boolean;
   isDelete: boolean;
 
-  lastLoginAt?: string;
   passwordChangedAt?: string;
   emailVerifiedAt?: string;
 
+  lastLoginAt: string;
   createdAt: string;
   updatedAt: string;
+
 
   profile?: IProfile
   memberShipApplication?: IMembershipApplication;
@@ -87,7 +88,7 @@ interface IProfile {
   skills?: string[] | null;
 
 
-
+  lastLoginAt?: string;
   createdAt?: string;
   updatedAt?: string;
 

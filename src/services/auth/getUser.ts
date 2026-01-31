@@ -48,8 +48,9 @@ export const getUserInfo = async (): Promise<UserInfo | null> => {
         }
 
         return userInfo;
-    } catch (error) {
+    } catch (error: any) {
         console.error("getUserInfo error:", error);
-        return null;
+        return null
+
     }
 };

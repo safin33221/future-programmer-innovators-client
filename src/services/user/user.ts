@@ -51,6 +51,30 @@ export const getMe = async () => {
     }
 };
 
+
+export const updateUser = async (data: any) => {
+    try {
+        const res = await serverFetch.patch(`/user/update`, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+            cache: "no-store",
+        });
+
+        const result = await res.json();
+        console.log({ result });
+        if (!result.success) {
+
+            throw new Error(result.message);
+        }
+        return result
+
+    } catch (error) {
+        console.error("Update user error:", error);
+        throw error;
+    }
+};
 export const softDelete = async (id: string) => {
     try {
         const res = await serverFetch.patch(`/user/soft-delete/${id}`);

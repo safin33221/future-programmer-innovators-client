@@ -5,7 +5,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Camera, Loader2, Save, VerifiedIcon } from "lucide-react";
-
+import { useMemo } from "react";
 import {
     Avatar,
     AvatarFallback,
@@ -24,7 +24,8 @@ import { Label } from "@/components/ui/label";
 import { getInitials } from "@/lib/formatters";
 import { UserInfo } from "@/types/user/user.interface";
 import { Section } from "@/components/shared/Section";
-import Image from "next/image";
+import { updateUser } from "@/services/user/user";
+import { InputField } from "@/components/shared/InputField";
 
 /* ---------------------------------- */
 /* LOCAL UI HELPERS                   */
@@ -32,29 +33,7 @@ import Image from "next/image";
 
 
 
-const InputField = ({
-    label,
-    name,
-    value,
-    onChange,
-    disabled,
-    placeholder,
-    type = "text",
-    readonly,
-}: any) => (
-    <div className="space-y-1">
-        <Label>{label}</Label>
-        <Input
-            type={type}
-            name={name}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-            placeholder={placeholder}
-            readOnly={readonly}
-        />
-    </div>
-);
+
 
 /* ---------------------------------- */
 /* MAIN COMPONENT                     */
@@ -65,10 +44,38 @@ interface MyProfileProps {
 }
 
 const MyProfile = ({ userInfo }: MyProfileProps) => {
-    console.log({ userInfo });
+
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const [previewImage, setPreviewImage] = useState<string | null>(null);
+
+
+    const initialFormData = useMemo(
+        () => ({
+            firstName: userInfo.firstName || "",
+            lastName: userInfo.lastName || "",
+            phone: userInfo.phone || "",
+            bio: userInfo.bio || "",
+
+            studentId: userInfo.profile?.studentId || "",
+            departmentId: userInfo.profile?.departmentId || "",
+            sessionId: userInfo.profile?.sessionId || "",
+            batch: userInfo.profile?.batch || "",
+            skills: userInfo.profile?.skills?.join(", ") || "",
+
+            expertise: userInfo.profile?.expertise || "",
+            designation: userInfo.profile?.designation || "",
+            company: userInfo.profile?.company || "",
+            experience: userInfo.profile?.experience || "",
+
+            github: userInfo.profile?.github || "",
+            linkedin: userInfo.profile?.linkedin || "",
+            portfolio: userInfo.profile?.portfolio || "",
+        }),
+        [userInfo]
+    );
+
+
 
     const [formData, setFormData] = useState({
         // core
@@ -129,20 +136,18 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
 
         startTransition(async () => {
             try {
-                const userData: any = {
+                /* ---------------- CORE USER DATA ---------------- */
+                const payload: any = {
+                    id: userInfo.id,
                     firstName: formData.firstName,
                     lastName: formData.lastName,
                     phone: formData.phone,
                     bio: formData.bio,
                 };
 
-                let profileData: any = {};
-
+                /* ---------------- ROLE BASED DATA ---------------- */
                 if (userInfo.role === "MEMBER") {
-                    profileData = {
-                        studentId: formData.studentId,
-                        departmentId: formData.departmentId,
-                        sessionId: formData.sessionId,
+                    payload.roleData = {
                         batch: formData.batch,
                         skills: formData.skills
                             .split(",")
@@ -154,7 +159,7 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
                 }
 
                 if (userInfo.role === "MENTOR") {
-                    profileData = {
+                    payload.roleData = {
                         expertise: formData.expertise,
                         designation: formData.designation,
                         company: formData.company,
@@ -165,6 +170,7 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
                     };
                 }
 
+                /* ---------------- IMAGE UPLOAD ---------------- */
                 if (previewImage) {
                     const blob = await (await fetch(previewImage)).blob();
                     const file = new File([blob], "profile.jpg", {
@@ -181,17 +187,18 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
 
                     if (upload.ok) {
                         const { imageUrl } = await upload.json();
-                        userData.profileImage = imageUrl;
+                        payload.profileImage = imageUrl;
                     }
                 }
 
-                const res = await fetch(`/api/users/${userInfo.id}`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ userData, profileData }),
-                });
+                console.log("FINAL PAYLOAD 👉", payload);
 
-                if (!res.ok) throw new Error("Profile update failed");
+                const res = await updateUser(payload);
+                if (!res.success) {
+                    toast.error(res.message || "Update failed");
+                    return;
+                }
+
 
                 toast.success("Profile updated");
                 router.refresh();
@@ -201,6 +208,16 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
             }
         });
     };
+    const isFormChanged = useMemo(() => {
+        // image change হলে always true
+        if (previewImage) return true;
+
+        return Object.keys(initialFormData).some(
+            (key) =>
+                initialFormData[key as keyof typeof initialFormData] !==
+                formData[key as keyof typeof formData]
+        );
+    }, [formData, initialFormData, previewImage]);
 
     return (
         <form onSubmit={handleSubmit} className="space-y-8">
@@ -399,7 +416,10 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
                         </Section>
 
                         <div className="flex justify-end gap-3 pt-6 border-t">
-                            <Button type="submit" disabled={isPending}>
+                            <Button
+                                type="submit"
+                                disabled={isPending || !isFormChanged}
+                            >
                                 {isPending ? (
                                     <>
                                         <Loader2 className="mr-2 animate-spin" size={16} />
@@ -412,6 +432,7 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
                                     </>
                                 )}
                             </Button>
+
                         </div>
                     </CardContent>
                 </Card>

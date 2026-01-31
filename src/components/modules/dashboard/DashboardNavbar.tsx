@@ -14,7 +14,7 @@ export default async function DashboardNavbar() {
 
 
     const navItems: INavSection[] = getNavItemByRole(userInfo.data.role as UserRole)
-    console.log(userInfo);
+
 
     return (
         <div>

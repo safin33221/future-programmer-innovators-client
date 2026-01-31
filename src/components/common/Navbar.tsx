@@ -48,9 +48,9 @@ export default function Navbar({
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <Logo />
-          </Link>
+
+          <Logo />
+
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-6">
@@ -122,55 +122,57 @@ export default function Navbar({
       </div>
 
       {/* Mobile Menu */}
-      {mobileOpen && (
-        <div className="md:hidden border-t bg-background">
-          <div className="px-4 py-4 space-y-2">
-            {NAV_ITEMS.map((item) =>
-              item.children ? (
-                <div key={item.label}>
-                  <button
-                    onClick={() => toggleSubmenu(item.label)}
-                    className="flex w-full items-center justify-between py-2 text-sm font-medium"
+      {
+        mobileOpen && (
+          <div className="md:hidden border-t bg-background">
+            <div className="px-4 py-4 space-y-2">
+              {NAV_ITEMS.map((item) =>
+                item.children ? (
+                  <div key={item.label}>
+                    <button
+                      onClick={() => toggleSubmenu(item.label)}
+                      className="flex w-full items-center justify-between py-2 text-sm font-medium"
+                    >
+                      {item.label}
+                      <ChevronDown
+                        className={`h-4 w-4 transition ${openSubmenu === item.label ? "rotate-180" : ""
+                          }`}
+                      />
+                    </button>
+
+                    {openSubmenu === item.label && (
+                      <div className="ml-4 space-y-1">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.label}
+                            href={child.href}
+                            onClick={() => {
+                              setMobileOpen(false);
+                              setOpenSubmenu(null);
+                            }}
+                            className="block py-1 text-sm text-muted-foreground"
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    key={item.label}
+                    href={item.href!}
+                    onClick={() => setMobileOpen(false)}
+                    className="block py-2 text-sm font-medium"
                   >
                     {item.label}
-                    <ChevronDown
-                      className={`h-4 w-4 transition ${openSubmenu === item.label ? "rotate-180" : ""
-                        }`}
-                    />
-                  </button>
-
-                  {openSubmenu === item.label && (
-                    <div className="ml-4 space-y-1">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.label}
-                          href={child.href}
-                          onClick={() => {
-                            setMobileOpen(false);
-                            setOpenSubmenu(null);
-                          }}
-                          className="block py-1 text-sm text-muted-foreground"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Link
-                  key={item.label}
-                  href={item.href!}
-                  onClick={() => setMobileOpen(false)}
-                  className="block py-2 text-sm font-medium"
-                >
-                  {item.label}
-                </Link>
-              )
-            )}
+                  </Link>
+                )
+              )}
+            </div>
           </div>
-        </div>
-      )}
-    </nav>
+        )
+      }
+    </nav >
   );
 }

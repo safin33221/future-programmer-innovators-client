@@ -1,6 +1,6 @@
 
 import InfoRow from "@/components/shared/InfoRow";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
     Dialog,
@@ -44,7 +44,10 @@ const GuestViewDetailDialog = ({
                     {/* Profile Header */}
                     <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-muted/40 rounded-lg mb-6">
                         <Avatar className="h-24 w-24 border shadow">
-                            {/* <AvatarImage src={guest?.} /> */}
+                            <AvatarImage
+                                src={guest?.profileImage}
+                                alt={guest.firstName}
+                            />
                             <AvatarFallback className="text-2xl">
                                 {getInitials(
                                     `${guest.firstName} ${guest.lastName}`

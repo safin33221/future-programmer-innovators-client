@@ -44,64 +44,53 @@ interface MyProfileProps {
 }
 
 const MyProfile = ({ userInfo }: MyProfileProps) => {
-
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
-    const [previewImage, setPreviewImage] = useState<string | null>(null);
 
-
-    const initialFormData = useMemo(
-        () => ({
-            firstName: userInfo.firstName || "",
-            lastName: userInfo.lastName || "",
-            phone: userInfo.phone || "",
-            bio: userInfo.bio || "",
-
-            studentId: userInfo.profile?.studentId || "",
-            departmentId: userInfo.profile?.departmentId || "",
-            sessionId: userInfo.profile?.sessionId || "",
-            batch: userInfo.profile?.batch || "",
-            skills: userInfo.profile?.skills?.join(", ") || "",
-
-            expertise: userInfo.profile?.expertise || "",
-            designation: userInfo.profile?.designation || "",
-            company: userInfo.profile?.company || "",
-            experience: userInfo.profile?.experience || "",
-
-            github: userInfo.profile?.github || "",
-            linkedin: userInfo.profile?.linkedin || "",
-            portfolio: userInfo.profile?.portfolio || "",
-        }),
-        [userInfo]
+    const [previewImage, setPreviewImage] = useState<File | null>(null);
+    const [profileImage, setProfileImage] = useState<string | undefined>(
+        userInfo.profileImage
     );
 
-
-
     const [formData, setFormData] = useState({
-        // core
         firstName: userInfo.firstName || "",
         lastName: userInfo.lastName || "",
         phone: userInfo.phone || "",
         bio: userInfo.bio || "",
+        profileImage: userInfo.profileImage || "",
 
-        // member
-        studentId: userInfo.profile?.studentId || "",
-        departmentId: userInfo.profile?.departmentId || "",
-        sessionId: userInfo.profile?.sessionId || "",
         batch: userInfo.profile?.batch || "",
         skills: userInfo.profile?.skills?.join(", ") || "",
+        studentId: userInfo.profile?.studentId || "",
 
-        // mentor
         expertise: userInfo.profile?.expertise || "",
         designation: userInfo.profile?.designation || "",
         company: userInfo.profile?.company || "",
         experience: userInfo.profile?.experience || "",
 
-        // social
-        github: userInfo.profile?.github || userInfo.profile?.github || "",
-        linkedin: userInfo.profile?.linkedin || userInfo.profile?.linkedin || "",
+        github: userInfo.profile?.github || "",
+        linkedin: userInfo.profile?.linkedin || "",
         portfolio: userInfo.profile?.portfolio || "",
     });
+
+    /* ---------------------------------- */
+    /* HELPERS                            */
+    /* ---------------------------------- */
+
+    const initialFormData = useMemo(() => ({ ...formData }), []);
+
+    const normalize = (v: any) =>
+        typeof v === "string" ? v.trim() : v;
+
+    const isFormChanged = useMemo(() => {
+        if (previewImage) return true;
+
+        return Object.keys(formData).some(
+            (key) =>
+                normalize((formData as any)[key]) !==
+                normalize((initialFormData as any)[key])
+        );
+    }, [formData, previewImage, initialFormData]);
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -114,40 +103,43 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        if (!file.type.startsWith("image/")) {
-            toast.error("Invalid image format");
-            return;
-        }
-
-        if (file.size > 5 * 1024 * 1024) {
-            toast.error("Image must be under 5MB");
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onloadend = () => setPreviewImage(reader.result as string);
-        reader.readAsDataURL(file);
+        setPreviewImage(file);
+        setProfileImage(URL.createObjectURL(file));
     };
 
-    const profileImage = previewImage || userInfo.profileImage || "";
+    /* ---------------------------------- */
+    /* SUBMIT                             */
+    /* ---------------------------------- */
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         startTransition(async () => {
             try {
-                /* ---------------- CORE USER DATA ---------------- */
-                const payload: any = {
-                    id: userInfo.id,
-                    firstName: formData.firstName,
-                    lastName: formData.lastName,
-                    phone: formData.phone,
-                    bio: formData.bio,
-                };
+                const payload = new FormData();
 
-                /* ---------------- ROLE BASED DATA ---------------- */
+                payload.append("id", userInfo.id);
+                payload.append("firstName", formData.firstName);
+                payload.append("lastName", formData.lastName);
+                payload.append("phone", formData.phone);
+                payload.append("bio", formData.bio);
+
+
+                let roleData: any = {};
+
+                if (userInfo.role === "ADMIN") {
+                    roleData = {
+                        skills: formData.skills
+                            .split(",")
+                            .map((s) => s.trim())
+                            .filter(Boolean),
+                        github: formData.github,
+                        linkedin: formData.linkedin,
+
+                    };
+                }
                 if (userInfo.role === "MEMBER") {
-                    payload.roleData = {
+                    roleData = {
                         batch: formData.batch,
                         skills: formData.skills
                             .split(",")
@@ -155,11 +147,12 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
                             .filter(Boolean),
                         github: formData.github,
                         linkedin: formData.linkedin,
+                        studentId: formData.studentId
                     };
                 }
 
                 if (userInfo.role === "MENTOR") {
-                    payload.roleData = {
+                    roleData = {
                         expertise: formData.expertise,
                         designation: formData.designation,
                         company: formData.company,
@@ -170,54 +163,28 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
                     };
                 }
 
-                /* ---------------- IMAGE UPLOAD ---------------- */
+                payload.append("roleData", JSON.stringify(roleData));
+
                 if (previewImage) {
-                    const blob = await (await fetch(previewImage)).blob();
-                    const file = new File([blob], "profile.jpg", {
-                        type: "image/jpeg",
-                    });
-
-                    const imgForm = new FormData();
-                    imgForm.append("profileImage", file);
-
-                    const upload = await fetch("/api/users/upload-profile-image", {
-                        method: "POST",
-                        body: imgForm,
-                    });
-
-                    if (upload.ok) {
-                        const { imageUrl } = await upload.json();
-                        payload.profileImage = imageUrl;
-                    }
+                    payload.append("file", previewImage);
                 }
-
-                console.log("FINAL PAYLOAD 👉", payload);
 
                 const res = await updateUser(payload);
-                if (!res.success) {
-                    toast.error(res.message || "Update failed");
+
+                if (!res?.success) {
+                    toast.error(res?.message || "Update failed");
                     return;
                 }
-
 
                 toast.success("Profile updated");
                 router.refresh();
                 setPreviewImage(null);
-            } catch (err: any) {
-                toast.error(err.message || "Update failed");
+            } catch {
+                toast.error("Update failed");
             }
         });
     };
-    const isFormChanged = useMemo(() => {
-        // image change হলে always true
-        if (previewImage) return true;
 
-        return Object.keys(initialFormData).some(
-            (key) =>
-                initialFormData[key as keyof typeof initialFormData] !==
-                formData[key as keyof typeof formData]
-        );
-    }, [formData, initialFormData, previewImage]);
 
     return (
         <form onSubmit={handleSubmit} className="space-y-8">

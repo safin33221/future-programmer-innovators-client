@@ -1,4 +1,4 @@
-
+"use server"
 import DashboardNavbarContent from "./DashboardNavbarContent"
 import { getNavItemByRole } from "@/lib/navItem.config"
 import { INavSection } from "@/types/dashboard/dashboard.interface"
@@ -11,14 +11,17 @@ export default async function DashboardNavbar() {
 
         return null
     }
+    console.log({
+        userInfo
+    });
 
 
-    const navItems: INavSection[] = getNavItemByRole(userInfo.data.role as UserRole)
+    const navItems: INavSection[] = getNavItemByRole(userInfo.data?.role as UserRole)
 
 
     return (
         <div>
-            <DashboardNavbarContent userInfo={userInfo.data} navItems={navItems} />
+            <DashboardNavbarContent userInfo={userInfo?.data} navItems={navItems} />
 
         </div>
     )

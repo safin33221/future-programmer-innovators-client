@@ -32,8 +32,8 @@ export default function Register() {
             </div>
 
             {/* Right Side Register Form */}
-            {/* <RegisterForm /> */}
-            <RegisterFormS />
+            <RegisterForm />
+            {/* <RegisterFormS /> */}
         </div>
     );
 }

@@ -241,7 +241,7 @@ export const guestNavItem: INavSection[] = [
             },
             {
                 title: "Apply for Membership",
-                href: "/guest/apply",
+                href: "/guest/dashboard/apply",
                 icon: "UserPlus",
                 role: ["GUEST"],
             },

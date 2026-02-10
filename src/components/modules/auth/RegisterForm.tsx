@@ -34,9 +34,7 @@ export default function RegisterFlow() {
     const [secondsLeft, setSecondsLeft] = useState(0);
     const [isResending, setIsResending] = useState(false);
 
-    const [otp, setOtp] = useState<string[]>(
-        Array(OTP_LENGTH).fill("")
-    );
+    const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(""));
     const inputsRef = useRef<HTMLInputElement[]>([]);
 
     /* ================= OTP INPUT ================= */
@@ -59,14 +57,25 @@ export default function RegisterFlow() {
         }
     };
 
+    /* ================= CHANGE EMAIL ================= */
+
+    const handleChangeEmail = () => {
+        setStep("EMAIL");
+        setOtp(Array(OTP_LENGTH).fill(""));
+        setSecondsLeft(0);
+        setVerifiedToken("");
+        toast("You can enter a new email");
+    };
+
     /* ================= ACTIONS ================= */
 
     const [, sendAction, sendPending] = useActionState(
         async (_: any, formData: FormData) => {
+            const emailValue = formData.get("email")?.toString() ?? "";
             const res = await sendOtp(_, formData);
 
             if (res?.success) {
-                setEmail(formData.get("email") as string);
+                setEmail(emailValue);
                 setOtp(Array(OTP_LENGTH).fill(""));
                 setSecondsLeft(OTP_TIMEOUT);
                 setStep("OTP");
@@ -127,7 +136,7 @@ export default function RegisterFlow() {
             const fd = new FormData();
             fd.append("email", email);
 
-            const res = await sendOtp(null, fd);
+            const res = await sendOtp(undefined, fd);
 
             if (res?.success) {
                 setSecondsLeft(OTP_TIMEOUT);
@@ -150,49 +159,58 @@ export default function RegisterFlow() {
 
     return (
         <div className="flex items-center justify-center px-6 py-12">
-            <Card className="w-full max-w-md">
-                <CardHeader className="space-y-4">
-                    {/* PROGRESS (CENTERED) */}
-                    <div className="flex justify-center">
-                        <div className="flex w-full max-w-xs">
+            <Card className="w-full max-w-md mx-auto">
+                <CardHeader className="space-y-6">
+                    {/* Stepper */}
+                    <div className="relative w-full max-w-sm mx-auto">
+                        {/* Background line */}
+                        <div className="absolute top-1/2 left-0 w-full h-1 bg-muted -translate-y-1/2 rounded" />
+
+                        {/* Active line */}
+                        <div
+                            className="absolute top-1/2 left-0 h-1 bg-primary -translate-y-1/2 rounded transition-all"
+                            style={{
+                                width:
+                                    stepIndex === 1
+                                        ? "0%"
+                                        : stepIndex === 2
+                                            ? "50%"
+                                            : "100%",
+                            }}
+                        />
+
+                        {/* Steps */}
+                        <div className="relative flex justify-between">
                             {[1, 2, 3].map((i) => (
-                                <div key={i} className="flex flex-1 items-center">
-                                    <div
-                                        className={`h-8 w-8 rounded-full flex items-center justify-center text-sm font-medium
-                                        ${stepIndex >= i
-                                                ? "bg-primary text-white"
-                                                : "bg-muted text-muted-foreground"
-                                            }`}
-                                    >
-                                        {i}
-                                    </div>
-                                    {i !== 3 && (
-                                        <div
-                                            className={`flex-1 h-1 mx-2 rounded
-                                            ${stepIndex > i
-                                                    ? "bg-primary"
-                                                    : "bg-muted"
-                                                }`}
-                                        />
-                                    )}
+                                <div
+                                    key={i}
+                                    className={`h-8 w-8 rounded-full flex items-center justify-center text-sm font-medium z-10
+          ${stepIndex >= i
+                                            ? "bg-primary text-white"
+                                            : "bg-muted text-muted-foreground"
+                                        }`}
+                                >
+                                    {i}
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    <div className="text-center">
+                    {/* Title */}
+                    <div className="text-center space-y-1">
                         <CardTitle>
                             {step === "EMAIL" && "Verify your email"}
                             {step === "OTP" && "Enter verification code"}
                             {step === "REGISTER" && "Create your account"}
                         </CardTitle>
+
                         {step === "OTP" && (
-                            <CardDescription>
-                                Code sent to {email}
-                            </CardDescription>
+                            <CardDescription>Code sent to {email}</CardDescription>
                         )}
                     </div>
                 </CardHeader>
+
+
 
                 <CardContent className="space-y-4">
                     {/* EMAIL STEP */}
@@ -202,9 +220,8 @@ export default function RegisterFlow() {
                                 <FieldLabel>Email</FieldLabel>
                                 <Input
                                     name="email"
-                                    type="text"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    type="email"
+                                    placeholder="you@example.com"
                                     required
                                 />
                             </Field>
@@ -248,14 +265,11 @@ export default function RegisterFlow() {
                                 Verify OTP
                             </Button>
 
-                            {/* COUNTDOWN / RESEND */}
-                            <div className="flex flex-col items-center gap-2 min-h-12">
+                            <div className="flex flex-col items-center gap-2">
                                 {secondsLeft > 0 ? (
                                     <p className="text-sm text-muted-foreground">
                                         Resend available in{" "}
-                                        <span className="font-semibold">
-                                            {secondsLeft}s
-                                        </span>
+                                        <span className="font-semibold">{secondsLeft}s</span>
                                     </p>
                                 ) : (
                                     <Button
@@ -270,6 +284,16 @@ export default function RegisterFlow() {
                                         Resend OTP
                                     </Button>
                                 )}
+
+                                {/* CHANGE EMAIL */}
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={handleChangeEmail}
+                                >
+                                    Change email
+                                </Button>
                             </div>
                         </form>
                     )}
@@ -277,11 +301,8 @@ export default function RegisterFlow() {
                     {/* REGISTER STEP */}
                     {step === "REGISTER" && (
                         <form action={regAction} className="space-y-4">
-                            <input
-                                type="hidden"
-                                name="verifiedToken"
-                                value={verifiedToken}
-                            />
+                            <input type="hidden" name="verifiedToken" value={verifiedToken} />
+                            <input type="hidden" name="email" value={email} />
 
                             <FieldGroup>
                                 <div className="grid grid-cols-2 gap-4">
@@ -297,11 +318,7 @@ export default function RegisterFlow() {
 
                                 <Field>
                                     <FieldLabel>Password</FieldLabel>
-                                    <Input
-                                        type="password"
-                                        name="password"
-                                        required
-                                    />
+                                    <Input type="password" name="password" required />
                                 </Field>
                             </FieldGroup>
 
@@ -314,10 +331,7 @@ export default function RegisterFlow() {
 
                 <CardFooter className="justify-center text-sm">
                     Already have an account?
-                    <Link
-                        href="/login"
-                        className="ml-1 text-primary underline"
-                    >
+                    <Link href="/login" className="ml-1 text-primary underline">
                         Sign in
                     </Link>
                 </CardFooter>

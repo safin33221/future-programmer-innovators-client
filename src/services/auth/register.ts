@@ -15,6 +15,7 @@ export const register = async (
             email: String(formData.get("email")),
             password: String(formData.get("password")),
         };
+        console.log({ payload });
 
 
         const res = await serverFetch.post('/auth/registration', {
